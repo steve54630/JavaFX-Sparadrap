@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="816.0"
+	prefWidth="579.0" style="-fx-background-color: #1DB0EF;"
+	xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<Text layoutX="137.0" layoutY="56.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Nom" wrappingWidth="44.98307228088379" />
+		<Text layoutX="132.0" layoutY="97.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Prénom" />
+		<Text layoutX="249.0" layoutY="137.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Adresse :" wrappingWidth="72.60676956176758" />
+		<Text layoutX="98.0" layoutY="260.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Numéro de téléphone" textAlignment="CENTER"
+			wrappingWidth="100.98307228088379" />
+		<Text layoutX="39.0" layoutY="175.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="N°" wrappingWidth="48.60676956176758" />
+		<Text layoutX="135.0" layoutY="175.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Nom de la rue"
+			wrappingWidth="93.98307228088379" />
+		<Text layoutX="325.0" layoutY="175.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Code postal"
+			wrappingWidth="79.98307228088379" />
+		<Text layoutX="470.0" layoutY="175.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Ville" wrappingWidth="44.98307228088379" />
+		<TextField fx:id="textNumRue" layoutX="32.0" layoutY="183.0"
+			prefHeight="26.0" prefWidth="66.0" />
+		<TextField fx:id="textNomRue" layoutX="131.0"
+			layoutY="185.0" prefHeight="26.0" prefWidth="166.0" />
+		<TextField fx:id="textCodePos" layoutX="311.0"
+			layoutY="185.0" prefHeight="26.0" prefWidth="94.0" />
+		<TextField fx:id="textVille" layoutX="416.0" layoutY="185.0" />
+		<Text layoutX="101.0" layoutY="309.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Numéro de sécurité sociale"
+			textAlignment="CENTER" wrappingWidth="93.98307228088379" />
+		<Text layoutX="66.0" layoutY="371.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="E-Mail" wrappingWidth="44.98307228088379" />
+		<Text layoutX="36.0" layoutY="414.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Date de naissance" textAlignment="CENTER"
+			wrappingWidth="123.59823989868164" />
+		<Text layoutX="98.0" layoutY="461.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Médecin" wrappingWidth="57.98307228088379" />
+		<Text layoutX="100.0" layoutY="506.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Mutuelle" wrappingWidth="66.0" />
+		<Button layoutX="58.0" layoutY="764.0" mnemonicParsing="false"
+			onAction="#retour" prefHeight="30.0" prefWidth="106.0"
+			style="-fx-background-color: #ECA61A;" text="Retour" />
+		<Button layoutX="425.0" layoutY="764.0" mnemonicParsing="false"
+			onAction="#quitter" prefHeight="30.0" prefWidth="106.0"
+			style="-fx-background-color: #EC2F1A;" text="Quitter"
+			textFill="#0d0d0d" />
+		<Button fx:id="valider" layoutX="232.0" layoutY="764.0"
+			mnemonicParsing="false" onAction="#valider" prefHeight="30.0"
+			prefWidth="130.0" style="-fx-background-color: #16D42F;" text="Créer" />
+		<TextField fx:id="textNom" layoutX="233.0" layoutY="31.0"
+			prefHeight="26.0" prefWidth="211.0" />
+		<TextField fx:id="textPrenom" layoutX="219.0" layoutY="72.0"
+			prefHeight="26.0" prefWidth="240.0" />
+		<TextField fx:id="textTel" layoutX="249.0" layoutY="251.0"
+			prefHeight="26.0" prefWidth="219.0" />
+		<TextField fx:id="textNumSecu" layoutX="238.0"
+			layoutY="300.0" prefHeight="26.0" prefWidth="240.0" />
+		<TextField fx:id="textEmail" layoutX="182.0" layoutY="346.0"
+			prefHeight="26.0" prefWidth="240.0" />
+		<DatePicker fx:id="choixDate" layoutX="212.0"
+			layoutY="396.0" />
+		<ChoiceBox fx:id="boxMedecin" layoutX="202.0"
+			layoutY="443.0" prefHeight="26.0" prefWidth="200.0" />
+		<ChoiceBox fx:id="boxMutuelle" layoutX="202.0"
+			layoutY="488.0" prefHeight="26.0" prefWidth="200.0" />
+		<TableView fx:id="speTable" layoutX="278.0" layoutY="540.0"
+			prefHeight="200.0" prefWidth="295.0">
+			<columns>
+				<TableColumn fx:id="nomSpe" text="Nom" />
+				<TableColumn fx:id="prenomSpe" prefWidth="95.0"
+					text="Prénom" />
+				<TableColumn fx:id="specialiteSpe" prefWidth="119.0"
+					text="Specialité" />
+			</columns>
+			<columnResizePolicy>
+				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			</columnResizePolicy>
+		</TableView>
+		<ComboBox fx:id="boxSpecialiste" layoutX="23.0"
+			layoutY="607.0" prefHeight="26.0" prefWidth="240.0" />
+		<Button fx:id="ajouterSpecialiste" layoutX="23.0"
+			layoutY="640.0" mnemonicParsing="false" onAction="#ajoutSpecialiste"
+			prefHeight="30.0" prefWidth="240.0" text="Ajouter specialiste" />
+		<Text fx:id="labelListe" layoutX="84.0" layoutY="575.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="Liste spécialiste :"
+			textAlignment="CENTER" wrappingWidth="94.0" />
+		<Button fx:id="supprimerSpecialiste" layoutX="23.0"
+			layoutY="681.0" mnemonicParsing="false"
+			onAction="#effacerSpecialiste" prefHeight="30.0" prefWidth="240.0"
+			text="Supprimer specialiste" />
+	</children>
+</Pane>
