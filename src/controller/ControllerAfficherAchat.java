@@ -1,11 +1,16 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
+
 import exception.AppException;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,12 +19,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -61,6 +68,12 @@ public class ControllerAfficherAchat extends Pane implements Initializable {
 	private TextField mutuelle = new TextField();
 	@FXML
 	private TextField textPrixTotal;
+	@FXML
+	private Button imprimer = new Button();
+	@FXML
+	private Button retour = new Button();
+	@FXML
+	private Button quitter = new Button();
 
 	/**
 	 * Methode pour cibler un achat a la creation de la fenetre
@@ -109,8 +122,12 @@ public class ControllerAfficherAchat extends Pane implements Initializable {
 			// recupération de la mutuelle du client à afficher
 			mutuelle.setText("Mutuelle = " + achat.getAcheteur().getMutuelle());
 			// recupération du spécialiste s'étant occupé de l'achat
-			textSpecialiste
-					.setText(((Ordonnance) achat).getSpecialiste().toString());
+			if (((Ordonnance) achat).getSpecialiste() == null) {
+				textSpecialiste.setText("Aucun");
+			} else {
+				textSpecialiste.setText(
+						((Ordonnance) achat).getSpecialiste().toString());
+			}
 			// affichage du type d'achat
 			textAchat.setText("Achat avec Ordonnance");
 		}
@@ -146,12 +163,14 @@ public class ControllerAfficherAchat extends Pane implements Initializable {
 					.load(getClass().getResource("/view/Historique.fxml"));
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()
 					.getWindow();
-			Scene scene = new Scene((Parent) root);
+			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.setTitle("Historique");
 			stage.show();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Alert error = new Alert(AlertType.ERROR);
+			error.setContentText("Erreur affichage");
+			error.show();
 		}
 	}
 
@@ -167,4 +186,28 @@ public class ControllerAfficherAchat extends Pane implements Initializable {
 		}
 	}
 
+	public void imprimer(ActionEvent event) {
+		imprimer.setVisible(false);
+		quitter.setVisible(false);
+		retour.setVisible(false);
+		textPrixTotal.setLayoutX(248);
+		Scene scene = ((Node) event.getSource()).getScene();
+		WritableImage img = scene.snapshot(null);
+		File file = new File(System.getProperty("user.dir") + "\\Tickets\\"
+				+ achat.getType() + "\\" + achat.getAcheteur() + "\\"
+				+ achat.getType() + "_" + achat.getDate().toString() + "-"
+				+ achat.getId() + ".png");
+		file.mkdirs();
+		try {
+			ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", file);
+		} catch (IOException e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setContentText("Erreur impression");
+			error.show();
+		}
+		imprimer.setVisible(true);
+		quitter.setVisible(true);
+		retour.setVisible(true);
+		textPrixTotal.setLayoutX(37);
+	}
 }

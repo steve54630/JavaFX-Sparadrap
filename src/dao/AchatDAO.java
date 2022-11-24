@@ -26,12 +26,14 @@ public class AchatDAO implements DAO<Achat> {
 	 * 
 	 * @param ach : ach a ajouter dans la base de donnees
 	 * @return mise a jour reussi ou non
+	 * @throws SQLException : erreur transaction
 	 */
 	@Override
-	public boolean create(Achat ach) throws DAOException {
+	public boolean create(Achat ach) throws DAOException, SQLException {
 		boolean err = true;
+		Connection con = Connexion.getInstanceDB();
 		try {
-			Connection con = Connexion.getInstanceDB();
+			con.setAutoCommit(false);
 			StringBuilder sql = new StringBuilder();
 			sql.append("INSERT INTO achat (ID_CLIENT, DATE_ACHAT) ");
 			sql.append("VALUES (?, ?)");
@@ -47,17 +49,11 @@ public class AchatDAO implements DAO<Achat> {
 				stm.setInt(1, medicament.getId());
 				stm.setInt(2, medicament.getQuantite());
 				stm.executeUpdate();
-				StringBuilder sql2 = new StringBuilder();
-				sql2.append("UPDATE medicament ");
-				sql2.append("SET STOCK_MEDOC = STOCK_MEDOC - ? ");
-				sql2.append("WHERE ID_MEDOC = ?");
-				PreparedStatement stm2 = con.prepareStatement(sql2.toString());
-				stm2.setInt(2, medicament.getId());
-				stm2.setInt(1, medicament.getQuantite());
-				stm2.executeUpdate();
 			}
+			con.commit();
 			err = false;
 		} catch (SQLException e) {
+			con.rollback();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;

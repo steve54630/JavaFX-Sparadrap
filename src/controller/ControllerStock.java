@@ -57,7 +57,7 @@ public class ControllerStock extends Pane implements Initializable {
 		categorieMedoc
 				.setCellValueFactory(new PropertyValueFactory<>("categorie"));
 		prixMedoc.setCellValueFactory(new PropertyValueFactory<>("prix"));
-		stockMedoc.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+		stockMedoc.setCellValueFactory(new PropertyValueFactory<>("stock"));
 		// ajout des medicaments a partir de la DAO
 		try {
 			medTable.getItems().addAll(medDAO.findAll());

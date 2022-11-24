@@ -62,7 +62,6 @@ public class ControllerMain extends Pane implements Initializable {
 			stage.setScene(scene);
 			stage.show();
 		} catch (Exception e) {
-			e.printStackTrace();
 			Alert error = new Alert(AlertType.ERROR);
 			error.setContentText("Erreur affichage");
 			error.show();
@@ -125,7 +124,6 @@ public class ControllerMain extends Pane implements Initializable {
 			stage.setTitle("Détails");
 			stage.show();
 		} catch (Exception e) {
-			e.printStackTrace();
 			Alert error = new Alert(AlertType.ERROR);
 			error.setContentText("Erreur affichage");
 			error.show();

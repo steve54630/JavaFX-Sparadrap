@@ -1,6 +1,8 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,6 +11,7 @@ import java.util.ResourceBundle;
 
 import dao.AchatDAO;
 import dao.ClientDAO;
+import dao.Connexion;
 import dao.MedicamentDAO;
 import dao.OrdonnanceDAO;
 import exception.AppException;
@@ -76,10 +79,13 @@ public class ControllerAchat extends Pane implements Initializable {
 	@FXML
 	private TableColumn<Medicament, Integer> stock = new TableColumn<>();
 	@FXML
+	private TableColumn<Medicament, Integer> quantite = new TableColumn<>();
+	@FXML
 	private Button retour = new Button();
 	@FXML
 	private ContextMenu menu = new ContextMenu();
 
+	private Connection con = Connexion.getInstanceDB();
 	private ClientDAO cliDao = new ClientDAO();
 	private MedicamentDAO medDao = new MedicamentDAO();
 	private AchatDAO achDAO = new AchatDAO();
@@ -118,7 +124,8 @@ public class ControllerAchat extends Pane implements Initializable {
 		nomMedoc.setCellValueFactory(new PropertyValueFactory<>("nom"));
 		categorie.setCellValueFactory(new PropertyValueFactory<>("categorie"));
 		prix.setCellValueFactory(new PropertyValueFactory<>("prix"));
-		stock.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+		stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+		quantite.setCellValueFactory(new PropertyValueFactory<>("quantite"));
 
 		values.setValueFactory(
 				new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10));
@@ -142,6 +149,14 @@ public class ControllerAchat extends Pane implements Initializable {
 		boxMedicament.getSelectionModel().selectFirst();
 		for (MenuItem object : menu.getItems()) {
 			object.setVisible(false);
+		}
+		try {
+			con.setAutoCommit(false);
+		} catch (SQLException e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setContentText(
+					"Erreur connexion BDD : veuillez contacter le SAV");
+			error.show();
 		}
 	}
 
@@ -288,7 +303,6 @@ public class ControllerAchat extends Pane implements Initializable {
 		// Utilisation du choix
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
-
 			try {
 				int quantite = Integer.parseInt(result.get());
 				choix.setQuantite(quantite);
@@ -303,7 +317,6 @@ public class ControllerAchat extends Pane implements Initializable {
 						"Changement impossible : veuillez saisir un nombre");
 				error.show();
 			}
-
 		}
 	}
 
@@ -329,6 +342,7 @@ public class ControllerAchat extends Pane implements Initializable {
 					for (Medicament medicament : medicTable.getItems()) {
 						achat.setMedicaments(medicament,
 								medicament.getQuantite());
+						medDao.updateStock(medicament);
 					}
 					// ajout de l'achat à la base de données
 					achDAO.create(achat);
@@ -338,12 +352,15 @@ public class ControllerAchat extends Pane implements Initializable {
 					Alert error = new Alert(AlertType.ERROR);
 					error.setContentText(e.getMessage());
 					error.show();
-				} catch (DAOException e) {
+				} catch (NullPointerException e) {
+					Alert error = new Alert(AlertType.ERROR);
+					error.setContentText("Aucune date saisie");
+					error.show();
+				} catch (DAOException | SQLException e) {
 					Alert error = new Alert(AlertType.ERROR);
 					error.setContentText(e.getMessage());
 					error.show();
 				}
-				// Effet du bouton si "Achat avec ordonnance" est sélectionné
 			} else {
 				try {
 					// création d'une ordonnance avec les paramétres
@@ -355,6 +372,7 @@ public class ControllerAchat extends Pane implements Initializable {
 					for (Medicament medicament : medicTable.getItems()) {
 						ordonnance.setMedicaments(medicament,
 								medicament.getQuantite());
+						medDao.updateStock(medicament);
 					}
 					// ajout du spécialiste si choisi à cette ordonnance
 					if (boxSpecialiste.getValue() != null) {
@@ -394,8 +412,10 @@ public class ControllerAchat extends Pane implements Initializable {
 			stage.setScene(scene);
 			stage.setTitle("Menu principal");
 			stage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setContentText("Erreur affichage");
+			error.show();
 		}
 	}
 
@@ -405,7 +425,15 @@ public class ControllerAchat extends Pane implements Initializable {
 	 * @param event : clic sur le bouton retour
 	 */
 	public void retour(ActionEvent event) {
-		menuPrincipal();
+		try {
+			con.rollback();
+			menuPrincipal();
+		} catch (SQLException e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setContentText(
+					"Erreur connexion BDD : veuillez contacter le SAV");
+			error.show();
+		}
 	}
 
 	/**

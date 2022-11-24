@@ -45,7 +45,6 @@ public class MedecinDAO implements DAO<Medecin> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -77,11 +76,8 @@ public class MedecinDAO implements DAO<Medecin> {
 						rs.getString(3), list_adresse.read(rs.getInt(7)),
 						rs.getString(4), rs.getString(5), rs.getString(6));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException | AppException e) {
 			throw new DAOException("Erreur connection base de données");
-		} catch (AppException e) {
-			e.printStackTrace();
 		}
 		return med;
 	}
@@ -110,11 +106,8 @@ public class MedecinDAO implements DAO<Medecin> {
 						rs.getString(3), list_adresse.read(rs.getInt(7)),
 						rs.getString(4), rs.getString(5), rs.getString(6)));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException | AppException e) {
 			throw new DAOException("Erreur connection base de données");
-		} catch (AppException e) {
-			e.printStackTrace();
 		}
 		return MedList;
 	}
@@ -145,7 +138,6 @@ public class MedecinDAO implements DAO<Medecin> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -168,7 +160,6 @@ public class MedecinDAO implements DAO<Medecin> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;

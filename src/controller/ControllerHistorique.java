@@ -190,7 +190,6 @@ public class ControllerHistorique extends Pane implements Initializable {
 				stage.setTitle("Afficher client");
 				stage.show();
 			} catch (IOException e) {
-				e.printStackTrace();
 				Alert error = new Alert(AlertType.ERROR);
 				error.setContentText("Erreur affichage");
 				error.show();

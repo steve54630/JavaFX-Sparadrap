@@ -2,10 +2,12 @@ package application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 
 /** Main de l'application
@@ -35,7 +37,9 @@ public class Main extends Application {
 			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Alert error = new Alert(AlertType.ERROR);
+			error.setContentText("Erreur affichage");
+			error.show();
 		}
 	}
 

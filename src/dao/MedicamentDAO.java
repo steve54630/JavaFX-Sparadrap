@@ -39,11 +39,10 @@ public class MedicamentDAO implements DAO<Medicament> {
 			stm.setString(2, med.getCategorie());
 			stm.setDouble(3, med.getPrix());
 			stm.setString(4, med.dateToString());
-			stm.setInt(5, med.getQuantite());
+			stm.setInt(5, med.getStock());
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -70,11 +69,8 @@ public class MedicamentDAO implements DAO<Medicament> {
 						rs.getString(3), rs.getInt(4), rs.getInt(6),
 						rs.getString(5));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException | AppException e) {
 			throw new DAOException("Erreur connection base de données");
-		} catch (AppException e) {
-			e.printStackTrace();
 		}
 		return med;
 	}
@@ -98,12 +94,11 @@ public class MedicamentDAO implements DAO<Medicament> {
 			stm.setString(2, med.getCategorie());
 			stm.setDouble(3, med.getPrix());
 			stm.setString(4, med.dateToString());
-			stm.setInt(5, med.getQuantite());
+			stm.setInt(5, med.getStock());
 			stm.setInt(6, med.getId());
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -114,9 +109,10 @@ public class MedicamentDAO implements DAO<Medicament> {
 	 * 
 	 * @param med : medicament a supprimer dans la base de donnees
 	 * @return mise a jour reussi ou non
+	 * @throws DAOException : erreur connexion base de donnees
 	 */
 	@Override
-	public boolean delete(Medicament med) {
+	public boolean delete(Medicament med) throws DAOException {
 		boolean err = true;
 		try {
 			Connection con = Connexion.getInstanceDB();
@@ -126,7 +122,7 @@ public class MedicamentDAO implements DAO<Medicament> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
 	}
@@ -151,13 +147,29 @@ public class MedicamentDAO implements DAO<Medicament> {
 						rs.getString(3), rs.getInt(4), rs.getInt(6),
 						rs.getString(5)));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException | AppException e) {
 			throw new DAOException("Erreur connection base de données");
-		} catch (AppException e) {
-			e.printStackTrace();
 		}
 		return medList;
 	}
 
+	public boolean updateStock (Medicament medoc) throws DAOException {
+		boolean err = false;
+		Connection con = Connexion.getInstanceDB();
+		StringBuilder sql2 = new StringBuilder();
+		sql2.append("UPDATE medicament ");
+		sql2.append("SET STOCK_MEDOC = STOCK_MEDOC - ? ");
+		sql2.append("WHERE ID_MEDOC = ?");
+		try {
+			PreparedStatement stm2 = con.prepareStatement(sql2.toString());
+			stm2.setInt(2, medoc.getId());
+			stm2.setInt(1, medoc.getQuantite());
+			stm2.executeUpdate();
+			err = false;
+		} catch (SQLException e) {
+			throw new DAOException("Erreur connection base de données");
+		}
+		return err;
+	}
+	
 }

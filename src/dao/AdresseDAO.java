@@ -46,7 +46,6 @@ public class AdresseDAO implements DAO<Adresse> {
 				err = false;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -178,8 +177,9 @@ public class AdresseDAO implements DAO<Adresse> {
 	/** Verifie si l'adresse existe dans la base de donnees
 	 * @param adr : adresse a verifier
 	 * @return l'adresse existe ou n'existe pas
+	 * @throws DAOException  : problème connexion
 	 */
-	public Adresse compare(Adresse adr) {
+	public Adresse compare(Adresse adr) throws DAOException {
 		Adresse adrTrouve = null;
 		try {
 			for (Adresse adresse : this.findAll()) {
@@ -191,7 +191,7 @@ public class AdresseDAO implements DAO<Adresse> {
 				}
 			}
 		} catch (DAOException e) {
-			e.printStackTrace();
+			throw new DAOException("Erreur connection base de données");
 		}
 		return adrTrouve;
 	}

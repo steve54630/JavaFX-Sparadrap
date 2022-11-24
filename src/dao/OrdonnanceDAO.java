@@ -57,19 +57,10 @@ public class OrdonnanceDAO implements DAO<Ordonnance> {
 				stm2.setInt(1, medicament.getId());
 				stm2.setInt(2, medicament.getQuantite());
 				stm2.executeUpdate();
-				StringBuilder sql3 = new StringBuilder();
-				sql3.append("UPDATE medicament ");
-				sql3.append("SET STOCK_MEDOC = STOCK_MEDOC - ? ");
-				sql3.append("WHERE ID_MEDOC = ?");
-				PreparedStatement stm3 = con.prepareStatement(sql3.toString());
-				stm3.setInt(2, medicament.getId());
-				stm3.setInt(1, medicament.getQuantite());
-				stm3.executeUpdate();
 			}
 			con.commit();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			con.rollback();
 			throw new DAOException("Erreur connection base de données");
 		}
@@ -77,7 +68,7 @@ public class OrdonnanceDAO implements DAO<Ordonnance> {
 	}
 
 	/**
-	 * Rechercher une orodonnance dans la base de donnees
+	 * Rechercher une ordonnance dans la base de donnees
 	 * 
 	 * @param id : id de l'ordonnance a rechercher
 	 * @return ordonnance trouve
@@ -111,10 +102,7 @@ public class OrdonnanceDAO implements DAO<Ordonnance> {
 			while (rs.next()) {
 				ord.setMedicaments(medocDao.read(rs.getInt(2)), rs.getInt(3));
 			}
-		} catch (AppException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException | AppException e) {
 			throw new DAOException("Erreur connection base de données");
 		}
 		return ord;
@@ -158,10 +146,7 @@ public class OrdonnanceDAO implements DAO<Ordonnance> {
 								rs.getInt(3));
 				}
 			}
-		} catch (AppException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException | AppException e) {
 			throw new DAOException("Erreur connection base de données");
 		}
 		return achList;
@@ -198,7 +183,6 @@ public class OrdonnanceDAO implements DAO<Ordonnance> {
 			this.findAll();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;

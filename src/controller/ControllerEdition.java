@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.ResourceBundle;
 
 import dao.AdresseDAO;
 import dao.ClientDAO;
+import dao.Connexion;
 import dao.MedecinDAO;
 import dao.MutuelleDAO;
 import dao.SpecialisteDAO;
@@ -103,6 +105,7 @@ public class ControllerEdition extends Pane implements Initializable {
 	private MedecinDAO medDao = new MedecinDAO();
 	private MutuelleDAO mutDao = new MutuelleDAO();
 	private AdresseDAO adresseDAO = new AdresseDAO();
+	private Connection con = Connexion.getInstanceDB();
 
 	/**
 	 * Setter pour recuperer le client a afficher
@@ -231,6 +234,14 @@ public class ControllerEdition extends Pane implements Initializable {
 		}
 
 		boxSpecialiste.getSelectionModel().selectFirst();
+		try {
+			con.setAutoCommit(false);
+		} catch (SQLException e) {
+			Alert erreur = new Alert(AlertType.ERROR);
+			erreur.setHeaderText("Erreur serveur");
+			erreur.setContentText(e.getMessage());
+			erreur.show();
+		}
 
 	}
 
@@ -277,6 +288,7 @@ public class ControllerEdition extends Pane implements Initializable {
 				cli.setId(choixCli.getId());
 				clientDAO.update(cli);
 			}
+			con.commit();
 			Parent root = FXMLLoader
 					.load(getClass().getResource("/view/Details.fxml"));
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()
@@ -296,7 +308,6 @@ public class ControllerEdition extends Pane implements Initializable {
 			erreur.setContentText(e.getMessage());
 			erreur.show();
 		} catch (NullPointerException e) {
-			e.printStackTrace();
 			Alert erreur = new Alert(AlertType.WARNING);
 			erreur.setHeaderText("Erreur lors de la création");
 			erreur.setContentText("Date manquante");
@@ -371,6 +382,7 @@ public class ControllerEdition extends Pane implements Initializable {
 	 */
 	public void retour(ActionEvent event) {
 		try {
+			con.rollback();
 			Parent root = FXMLLoader
 					.load(getClass().getResource("/view/Details.fxml"));
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()
@@ -379,8 +391,16 @@ public class ControllerEdition extends Pane implements Initializable {
 			stage.setScene(scene);
 			stage.setTitle("Détails");
 			stage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			Alert erreur = new Alert(AlertType.ERROR);
+			erreur.setHeaderText("Erreur serveur");
+			erreur.setContentText(e.getMessage());
+			erreur.show();
+		} catch (IOException e) {
+			Alert erreur = new Alert(AlertType.ERROR);
+			erreur.setHeaderText("Erreur affichage");
+			erreur.setContentText("Veuillez contacter le SAV");
+			erreur.show();
 		}
 	}
 

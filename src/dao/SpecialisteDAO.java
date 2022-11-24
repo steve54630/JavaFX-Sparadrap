@@ -94,9 +94,14 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 		AdresseDAO list_adresse = new AdresseDAO();
 		try {
 			Connection con = Connexion.getInstanceDB();
-			String sql = "CALL liste_specialiste";
+			StringBuilder sql = new StringBuilder();
+			sql.append("select ID_PERSONNE, NOM_PERSONNE, PRENOM_PERSONNE, ");
+			sql.append("TELEPHONE_PERSONNE, EMAIL_PERSONNE, ");
+			sql.append("NOM_SPECIALITE, ID_ADRESSE ");
+			sql.append("from personne ");
+			sql.append("WHERE NOM_SPECIALITE is not NULL");
 			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(sql);
+			ResultSet rs = stm.executeQuery(sql.toString());
 			while (rs.next()) {
 				speList.add(new Specialiste(rs.getInt(1), rs.getString(2),
 						rs.getString(3), list_adresse.read(rs.getInt(7)),

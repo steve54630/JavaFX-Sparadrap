@@ -16,31 +16,13 @@ import exception.AppException;
 public class Medicament {
 
 	private Integer id;
-	/**
-	 * nom du medicament
-	 */
 	private String nom;
-	/**
-	 * categorie du medicament
-	 */
 	private String categorie;
-	/**
-	 * prix du medicament (avec la virgule possible)
-	 */
 	private double prix;
-	/**
-	 * prix du medicament (avec la virgule possible)
-	 */
 	private double prixReduit;
-	/**
-	 * date de mise en circulation du medicament
-	 */
 	private LocalDate dateCirculation;
-	/**
-	 * nombre de medicament en stock dans la pharmacie ou il est ajoute
-	 */
 	private int quantite;
-
+	private int stock;
 	/**
 	 * setter pour le nom du medicament
 	 * 
@@ -181,8 +163,18 @@ public class Medicament {
 	 */
 	public void setQuantite(int quantite) throws AppException {
 		if (quantite < 0)
-			throw new AppException("Erreur médicament : stock négatif");
+			throw new AppException("Erreur médicament : quantité négative");
 		this.quantite = quantite;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) throws AppException {
+		if (stock < 0)
+			throw new AppException("Erreur médicament : stock négatif");
+		this.stock = stock;
 	}
 
 	/**
@@ -221,7 +213,7 @@ public class Medicament {
 		this.setCategorie(categorie);
 		this.setPrix(prix);
 		this.setDateCirculation(date);
-		this.setQuantite(stock);
+		this.setStock(stock);
 	}
 
 	/**

@@ -130,6 +130,7 @@ public class ControllerDetailClient extends Pane implements Initializable {
 		choix.setTitle("Recherche par mutuelle");
 		choix.setHeaderText("Confirmation");
 		choix.setContentText("Choix médecin");
+		choix.setSelectedItem(medList.get(0));
 
 		// recherche en fonction du choix demandé
 		Optional<Medecin> result = choix.showAndWait();
@@ -174,6 +175,7 @@ public class ControllerDetailClient extends Pane implements Initializable {
 		choix.setTitle("Recherche par mutuelle");
 		choix.setHeaderText("Confirmation");
 		choix.setContentText("Choix mutuelle");
+		choix.setSelectedItem(mutList.get(0));
 
 		// recherche en fonction du choix demandé
 		Optional<Mutuelle> result = choix.showAndWait();
@@ -267,7 +269,6 @@ public class ControllerDetailClient extends Pane implements Initializable {
 				stage.setTitle("Afficher client");
 				stage.show();
 			} catch (IOException e) {
-				e.printStackTrace();
 				Alert error = new Alert(AlertType.ERROR);
 				error.setContentText("Erreur affichage");
 				error.show();
@@ -316,7 +317,7 @@ public class ControllerDetailClient extends Pane implements Initializable {
 			Alert supprimer = new Alert(AlertType.CONFIRMATION);
 			supprimer.setContentText("Voulez-vous supprimer la ligne "
 					+ cliTable.getSelectionModel().getSelectedItem() + "?");
-			//méthode de suppression du client
+			// méthode de suppression du client
 			if (supprimer.showAndWait().get() == ButtonType.OK) {
 				try {
 					cliDao.delete(
@@ -332,7 +333,9 @@ public class ControllerDetailClient extends Pane implements Initializable {
 		}
 	}
 
-	/** Effet du bouton "retour"
+	/**
+	 * Effet du bouton "retour"
+	 * 
 	 * @param event : clic sur le bouton retour
 	 */
 	public void retour(ActionEvent event) {

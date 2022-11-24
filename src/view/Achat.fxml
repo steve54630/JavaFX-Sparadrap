@@ -42,8 +42,10 @@
 					prefWidth="193.0" resizable="false" text="Categorie" />
 				<TableColumn fx:id="prix" editable="false"
 					prefWidth="156.0" resizable="false" text="Prix (en €)" />
-				<TableColumn fx:id="stock" minWidth="0.0"
-					prefWidth="172.0" resizable="false" text="Quantité" />
+				<TableColumn fx:id="quantite" minWidth="0.0"
+					prefWidth="88.0" resizable="false" text="Quantité" />
+				<TableColumn fx:id="stock" prefWidth="265.0"
+					text="Stock" />
 			</columns>
 			<columnResizePolicy>
 				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

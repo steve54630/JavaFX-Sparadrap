@@ -105,7 +105,6 @@ public class ClientDAO implements DAO<Client> {
 						medDao.read(rs.getInt(10)), mutDao.read(rs.getInt(8)));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return cli;
@@ -156,10 +155,7 @@ public class ClientDAO implements DAO<Client> {
 					}
 				}
 			}
-		} catch (AppException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (AppException | SQLException e) {
 			throw new DAOException("Erreur connection base de données");
 		}
 		return CliList;
@@ -201,7 +197,6 @@ public class ClientDAO implements DAO<Client> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -224,7 +219,6 @@ public class ClientDAO implements DAO<Client> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -252,7 +246,6 @@ public class ClientDAO implements DAO<Client> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -281,7 +274,6 @@ public class ClientDAO implements DAO<Client> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -292,8 +284,9 @@ public class ClientDAO implements DAO<Client> {
 	 * 
 	 * @param cli : client dont le numero de secu est a verifier
 	 * @return le numero de secu existe ou n'existe pas
+	 * @throws DAOException : erreur connection
 	 */
-	public boolean comparer(Client cli) {
+	public boolean comparer(Client cli) throws DAOException {
 
 		boolean trouve = false;
 		List<Client> cliList = new ArrayList<>();
@@ -301,7 +294,7 @@ public class ClientDAO implements DAO<Client> {
 		try {
 			cliList = this.findAll();
 		} catch (DAOException e) {
-			e.printStackTrace();
+			throw new DAOException("Erreur connection base de données");
 		}
 
 		for (Client client : cliList) {

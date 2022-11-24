@@ -86,11 +86,8 @@ public class Ordonnance extends Achat {
 		if (medicament == null)
 			throw new AppException(
 					"Erreur ordonnance : veuillez contacter le SAV");
-		Medicament medicamentAchete = new Medicament(medicament.getId(),
-				medicament.getNom(), medicament.getCategorie(),
-				medicament.getPrix(),
-				quantite, medicament.dateToString());
-		this.getMedicaments().add(medicamentAchete);
+		medicament.setQuantite(quantite);
+		this.getMedicaments().add(medicament);
 	}
 
 	@Override

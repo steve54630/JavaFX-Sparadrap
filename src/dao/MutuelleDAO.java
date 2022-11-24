@@ -46,7 +46,6 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -73,11 +72,8 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 						list_adresse.read(rs.getInt(2)), rs.getString(4),
 						rs.getString(5), rs.getString(6), rs.getInt(7));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException | AppException e) {
 			throw new DAOException("Erreur connection base de données");
-		} catch (AppException e) {
-			e.printStackTrace();
 		}
 		return mut;
 	}
@@ -101,11 +97,8 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 						list_adresse.read(rs.getInt(2)), rs.getString(4),
 						rs.getString(5), rs.getString(6), rs.getInt(7)));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException | AppException e) {
 			throw new DAOException("Erreur connection base de données");
-		} catch (AppException e) {
-			e.printStackTrace();
 		}
 		return MutList;
 	}
@@ -136,7 +129,6 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;
@@ -159,7 +151,6 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException("Erreur connection base de données");
 		}
 		return err;

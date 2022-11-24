@@ -13,24 +13,10 @@ import exception.AppException;
  */
 public class Achat {
 
-	/**
-	 * identifiant pour "serialize" un objet
-	 */
 	private Integer id;
-	/**
-	 * Client de l'achat
-	 */
 	private Client acheteur;
-	/**
-	 * date de l'achat
-	 */
 	private LocalDate date;
-
 	private String type = getClass().getName().replaceAll("model.", "");
-
-	/**
-	 * ArrayList de {@link Medicament}
-	 */
 	private ArrayList<Medicament> medicaments = new ArrayList<>();
 
 	public String getType() {
@@ -62,17 +48,15 @@ public class Achat {
 	 * setter pour ajouter un medicaments a l'achat
 	 * 
 	 * @param medicament : medicament choisi par l'acheteur
-	 * @param quantite : quantite du medicament voulu
+	 * @param quantite   : quantite du medicament voulu
 	 * @throws AppException : medicament nul
 	 */
 	public void setMedicaments(Medicament medicament, int quantite)
 			throws AppException {
 		if (medicament == null)
 			throw new AppException("Erreur achat : veuillez contacter le SAV");
-		Medicament medicamentAchete = new Medicament(medicament.getId(),
-				medicament.getNom(), medicament.getCategorie(),
-				medicament.getPrix(), quantite, medicament.dateToString());
-		this.medicaments.add(medicamentAchete);
+		medicament.setQuantite(quantite);
+		this.medicaments.add(medicament);
 	}
 
 	/**
@@ -147,9 +131,9 @@ public class Achat {
 	/**
 	 * Constructeur de l'achat
 	 * 
-	 * @param id : id de l'achat
+	 * @param id       : id de l'achat
 	 * @param acheteur : celui qui realise l'achat
-	 * @param Date : date de l'achat
+	 * @param Date     : date de l'achat
 	 * @throws AppException : erreurs de l'utilisateur
 	 */
 	public Achat(Integer id, Client acheteur, String Date) throws AppException {
