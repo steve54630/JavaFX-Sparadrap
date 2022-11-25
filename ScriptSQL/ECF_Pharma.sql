@@ -153,35 +153,6 @@ THEN SIGNAL SQLSTATE VALUE "45000" SET MESSAGE_TEXT = "Cette personne n'est pas 
 END IF;
 END |
 
-CREATE PROCEDURE liste_medecin()
-BEGIN
-select ID_PERSONNE, NOM_PERSONNE, PRENOM_PERSONNE, TELEPHONE_PERSONNE,
-EMAIL_PERSONNE, NUMERO_MEDECIN, p.ID_ADRESSE, NUM_ADRESSE, RUE_ADRESSE,
-CODEPOSTAL_ADRESSE, VILLE_ADRESSE from personne p 
-join adresse a on a.ID_ADRESSE = p.ID_ADRESSE
-where NUMERO_MEDECIN is not null ;
-END |
-
-CREATE PROCEDURE liste_client()
-BEGIN
-select p.ID_PERSONNE as Id, p.NOM_PERSONNE as Nom, p.PRENOM_PERSONNE as Prenom, p.TELEPHONE_PERSONNE as Telephone, 
-p.EMAIL_PERSONNE as eMail, p.SECSOCIALE_CLIENT as "Num secu", 
-p.NAISSANCE_CLIENT as "Date naissance", p.MUTUELLE_CLIENT as "Mutuelle", 
-p.ID_ADRESSE as "Adresse Client", m.ID_PERSONNE as "ID medecin"
-from personne p 
-join adresse a on a.ID_ADRESSE = p.ID_ADRESSE
-join personne m on p.ID_MEDECIN = m.ID_PERSONNE
-where p.ID_MEDECIN is not null
-ORDER BY p.ID_PERSONNE;
-END |
-
-CREATE PROCEDURE liste_specialiste()
-BEGIN
-select ID_PERSONNE, NOM_PERSONNE, PRENOM_PERSONNE, TELEPHONE_PERSONNE, EMAIL_PERSONNE, NOM_SPECIALITE, ID_ADRESSE
-from personne
-WHERE NOM_SPECIALITE is not NULL;
-END |
-
 /*==============================================================*/
 /* Triggers	: Personne					                        */
 /*==============================================================*/
