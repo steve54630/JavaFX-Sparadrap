@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +29,6 @@ public class MedicamentDAO implements DAO<Medicament> {
 	public boolean create(Medicament med) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "INSERT INTO medicament (NOM_MEDOC, CATEGORIE_MEDOC, "
 					+ "PRIX_MEDOC, CIRCULATION_MEDOC, STOCK_MEDOC) "
 					+ "VALUES (?, ?, ?, ?, ?) ";
@@ -43,7 +41,7 @@ public class MedicamentDAO implements DAO<Medicament> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -58,7 +56,6 @@ public class MedicamentDAO implements DAO<Medicament> {
 	public Medicament read(int id) throws DAOException {
 		Medicament med = null;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			StringBuffer sql = new StringBuffer();
 			sql.append("SELECT * FROM medicament WHERE ID_MEDOC = ? ");
 			PreparedStatement stm = con.prepareStatement(sql.toString());
@@ -70,7 +67,7 @@ public class MedicamentDAO implements DAO<Medicament> {
 						rs.getString(5));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return med;
 	}
@@ -85,7 +82,6 @@ public class MedicamentDAO implements DAO<Medicament> {
 	public boolean update(Medicament med) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "UPDATE medicament SET NOM_MEDOC = ?, CATEGORIE_MEDOC = ?, "
 					+ "PRIX_MEDOC = ?, CIRCULATION_MEDOC = ?, STOCK_MEDOC = ? "
 					+ "WHERE ID_MEDOC = ?";
@@ -99,7 +95,7 @@ public class MedicamentDAO implements DAO<Medicament> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -115,14 +111,13 @@ public class MedicamentDAO implements DAO<Medicament> {
 	public boolean delete(Medicament med) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "DELETE FROM medicament " + "WHERE ID_MEDICAMENT = ?";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, med.getId());
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -137,7 +132,6 @@ public class MedicamentDAO implements DAO<Medicament> {
 	public List<Medicament> findAll() throws DAOException {
 		ArrayList<Medicament> medList = new ArrayList<>();
 		try {
-			Connection con = Connexion.getInstanceDB();
 			StringBuffer sql = new StringBuffer();
 			sql.append("SELECT * FROM medicament");
 			Statement stm = con.createStatement();
@@ -148,14 +142,13 @@ public class MedicamentDAO implements DAO<Medicament> {
 						rs.getString(5)));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return medList;
 	}
 
 	public boolean updateStock (Medicament medoc) throws DAOException {
 		boolean err = false;
-		Connection con = Connexion.getInstanceDB();
 		StringBuilder sql2 = new StringBuilder();
 		sql2.append("UPDATE medicament ");
 		sql2.append("SET STOCK_MEDOC = STOCK_MEDOC - ? ");
@@ -167,7 +160,7 @@ public class MedicamentDAO implements DAO<Medicament> {
 			stm2.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}

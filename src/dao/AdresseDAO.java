@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +31,6 @@ public class AdresseDAO implements DAO<Adresse> {
 		boolean err = true;
 
 		try {
-			Connection con = Connexion.getInstanceDB();
 			if (this.compare(adr) == null) {
 				String sql = "INSERT INTO adresse (NUM_ADRESSE, RUE_ADRESSE, "
 						+ "CODEPOSTAL_ADRESSE, VILLE_ADRESSE) "
@@ -46,7 +44,7 @@ public class AdresseDAO implements DAO<Adresse> {
 				err = false;
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -61,7 +59,6 @@ public class AdresseDAO implements DAO<Adresse> {
 	public Adresse read(int id) throws DAOException {
 		Adresse adr = null;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "SELECT * FROM adresse " + "WHERE ID_ADRESSE = ?";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, id);
@@ -71,7 +68,7 @@ public class AdresseDAO implements DAO<Adresse> {
 						rs.getString(3), rs.getString(4), rs.getString(5));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return adr;
 	}
@@ -85,7 +82,6 @@ public class AdresseDAO implements DAO<Adresse> {
 	public List<Adresse> findAll() throws DAOException {
 		List<Adresse> AdrList = new ArrayList<>();
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "SELECT * FROM adresse";
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -94,7 +90,7 @@ public class AdresseDAO implements DAO<Adresse> {
 						rs.getString(3), rs.getString(4), rs.getString(5)));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return AdrList;
 	}
@@ -109,7 +105,6 @@ public class AdresseDAO implements DAO<Adresse> {
 	public boolean update(Adresse adr) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "UPDATE adresse " + "SET 'NUM_ADRESSE' = ? "
 					+ "'RUE_ADRESSE' = ? " + "'CODEPOSTAL_ADRESSE' = ? "
 					+ "SET 'VILLE_ADRESSE = ? " + "WHERE 'ID_ADRESSE' = ?";
@@ -122,7 +117,7 @@ public class AdresseDAO implements DAO<Adresse> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -137,14 +132,13 @@ public class AdresseDAO implements DAO<Adresse> {
 	public boolean delete(Adresse adr) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "DELETE FROM adresse " + "WHERE 'ID_ADRESSE' = ?";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, adr.getId());
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -157,7 +151,6 @@ public class AdresseDAO implements DAO<Adresse> {
 
 		Adresse adr = null;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder("SELECT * FROM adresse ");
 			sql.append("WHERE ID_ADRESSE IN ");
 			sql.append("(SELECT max(ID_ADRESSE) from adresse)");
@@ -169,7 +162,7 @@ public class AdresseDAO implements DAO<Adresse> {
 						rs.getString(3), rs.getString(4), rs.getString(5));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return adr;
 	}
@@ -191,7 +184,7 @@ public class AdresseDAO implements DAO<Adresse> {
 				}
 			}
 		} catch (DAOException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return adrTrouve;
 	}

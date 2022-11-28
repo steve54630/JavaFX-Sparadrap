@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import dao.Connexion;
 import dao.MedicamentDAO;
 import exception.AppException;
 import exception.DAOException;
@@ -128,7 +129,7 @@ public class ControllerStock extends Pane implements Initializable {
 	 * Effet du bouton quitter
 	 */
 	public void quitter() {
-
+		Connexion.closeInstanceDB();
 		Alert quitter = new Alert(AlertType.CONFIRMATION);
 		quitter.setContentText("Voulez-vous quitter?");
 		if (quitter.showAndWait().get() == ButtonType.OK) {

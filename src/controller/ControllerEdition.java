@@ -2,13 +2,13 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import application.Main;
 import dao.AdresseDAO;
 import dao.ClientDAO;
 import dao.Connexion;
@@ -92,6 +92,8 @@ public class ControllerEdition extends Pane implements Initializable {
 	@FXML
 	private Text labelListe = new Text();
 	@FXML
+	private TextField dateNaissance = new TextField();
+	@FXML
 	private TableView<Specialiste> speTable = new TableView<>();
 	@FXML
 	private TableColumn<Specialiste, String> nomSpe = new TableColumn<>();
@@ -105,7 +107,6 @@ public class ControllerEdition extends Pane implements Initializable {
 	private MedecinDAO medDao = new MedecinDAO();
 	private MutuelleDAO mutDao = new MutuelleDAO();
 	private AdresseDAO adresseDAO = new AdresseDAO();
-	private Connection con = Connexion.getInstanceDB();
 
 	/**
 	 * Setter pour recuperer le client a afficher
@@ -163,6 +164,8 @@ public class ControllerEdition extends Pane implements Initializable {
 		ajouterSpecialiste.setVisible(editer);
 		supprimerSpecialiste.setVisible(editer);
 		valider.setVisible(editer);
+		labelListe.setVisible(editer);
+		choixDate.setVisible(editer);
 
 		if (editer == true) {
 			try {
@@ -188,7 +191,7 @@ public class ControllerEdition extends Pane implements Initializable {
 			boxMutuelle.getItems().add(choixCli.getMutuelle());
 			boxMedecin.getItems().add(choixCli.getMedecin());
 			speTable.setLayoutX(154);
-			labelListe.setVisible(editer);
+			dateNaissance.setVisible(true);
 		}
 
 		// paramétres à changer si un client est choisi
@@ -204,6 +207,9 @@ public class ControllerEdition extends Pane implements Initializable {
 			textNumSecu.setText(choixCli.getSecuriteSociale());
 			textEmail.setText(choixCli.getEmail());
 			choixDate.setValue(choixCli.getDateNaissance());
+			DateTimeFormatter formatter = DateTimeFormatter
+					.ofPattern("dd/MM/yyyy");
+			dateNaissance.setText(choixDate.getValue().format(formatter));
 			// ajout des specialistes du client à la table
 			speTable.getItems().addAll(choixCli.getSpecialiste());
 			// ajout des specialistes disponibles à la comboBox
@@ -235,7 +241,7 @@ public class ControllerEdition extends Pane implements Initializable {
 
 		boxSpecialiste.getSelectionModel().selectFirst();
 		try {
-			con.setAutoCommit(false);
+			Main.getCon().setAutoCommit(false);
 		} catch (SQLException e) {
 			Alert erreur = new Alert(AlertType.ERROR);
 			erreur.setHeaderText("Erreur serveur");
@@ -288,7 +294,7 @@ public class ControllerEdition extends Pane implements Initializable {
 				cli.setId(choixCli.getId());
 				clientDAO.update(cli);
 			}
-			con.commit();
+			Main.getCon().commit();
 			Parent root = FXMLLoader
 					.load(getClass().getResource("/view/Details.fxml"));
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()
@@ -382,7 +388,7 @@ public class ControllerEdition extends Pane implements Initializable {
 	 */
 	public void retour(ActionEvent event) {
 		try {
-			con.rollback();
+			Main.getCon().rollback();
 			Parent root = FXMLLoader
 					.load(getClass().getResource("/view/Details.fxml"));
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()
@@ -408,7 +414,7 @@ public class ControllerEdition extends Pane implements Initializable {
 	 * Effet du bouton quitter
 	 */
 	public void quitter() {
-
+		Connexion.closeInstanceDB();
 		Alert quitter = new Alert(AlertType.CONFIRMATION);
 		quitter.setContentText("Voulez-vous quitter?");
 		if (quitter.showAndWait().get() == ButtonType.OK) {

@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
+import dao.Connexion;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -145,6 +146,36 @@ public class ControllerAfficherAchat extends Pane implements Initializable {
 		}
 	}
 
+	public void imprimer(ActionEvent event) {
+		imprimer.setVisible(false);
+		quitter.setVisible(false);
+		retour.setVisible(false);
+		textPrixTotal.setLayoutX(248);
+		Scene scene = ((Node) event.getSource()).getScene();
+		WritableImage img = scene.snapshot(null);
+		try {
+			File file = new File(System.getProperty("user.dir") + "\\Tickets\\"
+					+ achat.getType() + "\\" + achat.getAcheteur() + "\\"
+					+ achat.getType() + "_" + achat.getDate().toString() + "-"
+					+ achat.getId() + ".png");
+			file.mkdirs();
+			ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", file);
+		} catch (IOException e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setContentText("Erreur impression");
+			error.show();
+		}
+		Alert conf = new Alert(AlertType.INFORMATION);
+		conf.setHeaderText("Impression du ticket réussi");
+		conf.setContentText("Localisation : " + System.getProperty("user.dir")
+				+ "\\Tickets\\" + achat.getType() + "\\" + achat.getAcheteur());
+		conf.show();
+		imprimer.setVisible(true);
+		quitter.setVisible(true);
+		retour.setVisible(true);
+		textPrixTotal.setLayoutX(37);
+	}
+
 	/**
 	 * Effet du bouton retour
 	 * 
@@ -171,36 +202,12 @@ public class ControllerAfficherAchat extends Pane implements Initializable {
 	 * Effet du bouton quitter
 	 */
 	public void quitter() {
-
+	
+		Connexion.closeInstanceDB();
 		Alert quitter = new Alert(AlertType.CONFIRMATION);
 		quitter.setContentText("Voulez-vous quitter?");
 		if (quitter.showAndWait().get() == ButtonType.OK) {
 			Platform.exit();
 		}
-	}
-
-	public void imprimer(ActionEvent event) {
-		imprimer.setVisible(false);
-		quitter.setVisible(false);
-		retour.setVisible(false);
-		textPrixTotal.setLayoutX(248);
-		Scene scene = ((Node) event.getSource()).getScene();
-		WritableImage img = scene.snapshot(null);
-		File file = new File(System.getProperty("user.dir") + "\\Tickets\\"
-				+ achat.getType() + "\\" + achat.getAcheteur() + "\\"
-				+ achat.getType() + "_" + achat.getDate().toString() + "-"
-				+ achat.getId() + ".png");
-		file.mkdirs();
-		try {
-			ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", file);
-		} catch (IOException e) {
-			Alert error = new Alert(AlertType.ERROR);
-			error.setContentText("Erreur impression");
-			error.show();
-		}
-		imprimer.setVisible(true);
-		quitter.setVisible(true);
-		retour.setVisible(true);
-		textPrixTotal.setLayoutX(37);
 	}
 }

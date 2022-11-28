@@ -2,13 +2,13 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import application.Main;
 import dao.AchatDAO;
 import dao.ClientDAO;
 import dao.Connexion;
@@ -85,7 +85,6 @@ public class ControllerAchat extends Pane implements Initializable {
 	@FXML
 	private ContextMenu menu = new ContextMenu();
 
-	private Connection con = Connexion.getInstanceDB();
 	private ClientDAO cliDao = new ClientDAO();
 	private MedicamentDAO medDao = new MedicamentDAO();
 	private AchatDAO achDAO = new AchatDAO();
@@ -151,7 +150,7 @@ public class ControllerAchat extends Pane implements Initializable {
 			object.setVisible(false);
 		}
 		try {
-			con.setAutoCommit(false);
+			Main.getCon().setAutoCommit(false);
 		} catch (SQLException e) {
 			Alert error = new Alert(AlertType.ERROR);
 			error.setContentText(
@@ -420,7 +419,7 @@ public class ControllerAchat extends Pane implements Initializable {
 	 */
 	public void retour(ActionEvent event) {
 		try {
-			con.rollback();
+			Main.getCon().rollback();
 			menuPrincipal();
 		} catch (SQLException e) {
 			Alert error = new Alert(AlertType.ERROR);
@@ -435,6 +434,7 @@ public class ControllerAchat extends Pane implements Initializable {
 	 */
 	public void quitter() {
 
+		Connexion.closeInstanceDB();
 		Alert quitter = new Alert(AlertType.CONFIRMATION);
 		quitter.setContentText("Voulez-vous quitter?");
 		if (quitter.showAndWait().get() == ButtonType.OK) {

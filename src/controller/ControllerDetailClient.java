@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import dao.ClientDAO;
+import dao.Connexion;
 import dao.MedecinDAO;
 import dao.MutuelleDAO;
 import exception.DAOException;
@@ -269,6 +270,7 @@ public class ControllerDetailClient extends Pane implements Initializable {
 				stage.setTitle("Afficher client");
 				stage.show();
 			} catch (IOException e) {
+				e.printStackTrace();
 				Alert error = new Alert(AlertType.ERROR);
 				error.setContentText("Erreur affichage");
 				error.show();
@@ -359,6 +361,7 @@ public class ControllerDetailClient extends Pane implements Initializable {
 	 */
 	public void quitter() {
 
+		Connexion.closeInstanceDB();
 		Alert quitter = new Alert(AlertType.CONFIRMATION);
 		quitter.setContentText("Voulez-vous quitter?");
 		if (quitter.showAndWait().get() == ButtonType.OK) {

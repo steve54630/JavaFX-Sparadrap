@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +28,6 @@ public class ClientDAO implements DAO<Client> {
 	@Override
 	public boolean create(Client cli) throws SQLException, DAOException {
 		boolean err = true;
-		Connection con = Connexion.getInstanceDB();
 		if (!comparer(cli)) {
 			try {
 				con.setAutoCommit(false);
@@ -65,7 +63,7 @@ public class ClientDAO implements DAO<Client> {
 				err = false;
 			} catch (SQLException e) {
 				con.rollback();
-				throw new DAOException("Erreur connection base de données");
+				throw new DAOException("Erreur connexion base de données");
 			}
 			return err;
 		} else {
@@ -87,7 +85,6 @@ public class ClientDAO implements DAO<Client> {
 			AdresseDAO adrDao = new AdresseDAO();
 			MedecinDAO medDao = new MedecinDAO();
 			MutuelleDAO mutDao = new MutuelleDAO();
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder();
 			sql.append("select ID_PERSONNE, NOM_PERSONNE, PRENOM_PERSONNE, ");
 			sql.append("TELEPHONE_PERSONNE, ");
@@ -105,7 +102,7 @@ public class ClientDAO implements DAO<Client> {
 						medDao.read(rs.getInt(10)), mutDao.read(rs.getInt(8)));
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return cli;
 	}
@@ -125,7 +122,6 @@ public class ClientDAO implements DAO<Client> {
 			SpecialisteDAO speDAO = new SpecialisteDAO();
 			ArrayList<Specialiste> speList = (ArrayList<Specialiste>) speDAO
 					.findAll();
-			Connection con = Connexion.getInstanceDB();
 			String sql = "select ID_PERSONNE, NOM_PERSONNE, PRENOM_PERSONNE, "
 					+ "TELEPHONE_PERSONNE, "
 					+ "EMAIL_PERSONNE, SECSOCIALE_CLIENT, "
@@ -156,7 +152,7 @@ public class ClientDAO implements DAO<Client> {
 				}
 			}
 		} catch (AppException | SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return CliList;
 	}
@@ -170,7 +166,6 @@ public class ClientDAO implements DAO<Client> {
 	public boolean update(Client cli) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder();
 			sql.append("UPDATE personne ");
 			sql.append("SET MUTUELLE_CLIENT = ?, ");
@@ -197,7 +192,7 @@ public class ClientDAO implements DAO<Client> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -212,14 +207,13 @@ public class ClientDAO implements DAO<Client> {
 	public boolean delete(Client cli) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "DELETE FROM personne WHERE ID_PERSONNE = ?";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, cli.getId());
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -235,7 +229,6 @@ public class ClientDAO implements DAO<Client> {
 	public boolean ajoutSpecialiste(Client cli, Specialiste spe)
 			throws DAOException {
 		boolean err = true;
-		Connection con = Connexion.getInstanceDB();
 		StringBuilder sql = new StringBuilder(
 				"INSERT INTO liste_client_specialiste ");
 		sql.append("VALUES (?, ?) ");
@@ -246,7 +239,7 @@ public class ClientDAO implements DAO<Client> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -263,7 +256,6 @@ public class ClientDAO implements DAO<Client> {
 	public boolean supprimerSpecialiste(Client cli, Specialiste spe)
 			throws DAOException {
 		boolean err = true;
-		Connection con = Connexion.getInstanceDB();
 		StringBuilder sql = new StringBuilder(
 				"DELETE FROM liste_client_specialiste ");
 		sql.append("WHERE ID_CLIENT = ? AND ID_SPECIALISTE = ?");
@@ -274,7 +266,7 @@ public class ClientDAO implements DAO<Client> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -284,7 +276,7 @@ public class ClientDAO implements DAO<Client> {
 	 * 
 	 * @param cli : client dont le numero de secu est a verifier
 	 * @return le numero de secu existe ou n'existe pas
-	 * @throws DAOException : erreur connection
+	 * @throws DAOException : erreur connexion
 	 */
 	public boolean comparer(Client cli) throws DAOException {
 
@@ -294,7 +286,7 @@ public class ClientDAO implements DAO<Client> {
 		try {
 			cliList = this.findAll();
 		} catch (DAOException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 
 		for (Client client : cliList) {

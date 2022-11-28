@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +29,6 @@ public class MedecinDAO implements DAO<Medecin> {
 	public boolean create(Medecin med) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "INSERT INTO personne (ID_ADRESSE, NOM_PERSONNE, "
 					+ "PRENOM_PERSONNE, TELEPHONE_PERSONNE, "
 					+ "EMAIL_PERSONNE, NUMERO_MEDECIN) "
@@ -45,7 +43,7 @@ public class MedecinDAO implements DAO<Medecin> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -61,7 +59,6 @@ public class MedecinDAO implements DAO<Medecin> {
 		Medecin med = null;
 		AdresseDAO list_adresse = new AdresseDAO();
 		try {
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder();
 			sql.append(
 					"select ID_PERSONNE, NOM_PERSONNE, PRENOM_PERSONNE, TELEPHONE_PERSONNE, ");
@@ -77,7 +74,7 @@ public class MedecinDAO implements DAO<Medecin> {
 						rs.getString(4), rs.getString(5), rs.getString(6));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return med;
 	}
@@ -92,7 +89,6 @@ public class MedecinDAO implements DAO<Medecin> {
 		ArrayList<Medecin> MedList = new ArrayList<>();
 		AdresseDAO list_adresse = new AdresseDAO();
 		try {
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder();
 			sql.append(
 					"select ID_PERSONNE, NOM_PERSONNE, PRENOM_PERSONNE, TELEPHONE_PERSONNE, ");
@@ -107,7 +103,7 @@ public class MedecinDAO implements DAO<Medecin> {
 						rs.getString(4), rs.getString(5), rs.getString(6)));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return MedList;
 	}
@@ -122,7 +118,6 @@ public class MedecinDAO implements DAO<Medecin> {
 	public boolean update(Medecin med) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "UPDATE personne " + "SET NOM_PERSONNE = ?, "
 					+ "PRENOM_PERSONNE = ?, " + "TELEPHONE_PERSONNE = ?, "
 					+ "EMAIL_PERSONNE = ?, " + "NUMERO_MEDECIN = ?, "
@@ -138,7 +133,7 @@ public class MedecinDAO implements DAO<Medecin> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -153,14 +148,13 @@ public class MedecinDAO implements DAO<Medecin> {
 	public boolean delete(Medecin med) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "DELETE FROM personne " + "WHERE ID_PERSONNE = ? ";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, med.getId());
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}

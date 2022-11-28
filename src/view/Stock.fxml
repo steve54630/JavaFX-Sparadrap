@@ -6,24 +6,16 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0"
-	prefWidth="683.0" style="-fx-background-color: #1DB0EF;"
-	xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="controller.ControllerStock">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="683.0" style="-fx-background-color: #1DB0EF;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerStock">
 	<children>
-		<TableView fx:id="medTable" layoutX="66.0" layoutY="44.0"
-			prefHeight="400.0" prefWidth="570.0">
+		<TableView fx:id="medTable" layoutX="66.0" layoutY="44.0" prefHeight="400.0" prefWidth="570.0">
 			<columns>
-				<TableColumn fx:id="nomMedoc" editable="false"
-					prefWidth="125.0" text="Nom" />
-				<TableColumn fx:id="categorieMedoc" editable="false"
-					prefWidth="153.0" text="Categorie" />
-				<TableColumn fx:id="prixMedoc" editable="false"
-					prefWidth="155.0" text="Prix (en euros)" />
-				<TableColumn fx:id="stockMedoc" prefWidth="136.0"
-					text="Stock" />
+				<TableColumn fx:id="nomMedoc" editable="false" prefWidth="125.0" text="Nom" />
+				<TableColumn fx:id="categorieMedoc" editable="false" prefWidth="153.0" text="Categorie" />
+				<TableColumn fx:id="prixMedoc" editable="false" prefWidth="155.0" text="Prix (en euros)" />
+				<TableColumn fx:id="stockMedoc" prefWidth="136.0" text="Stock" />
 			</columns>
 			<columnResizePolicy>
 				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -31,18 +23,13 @@
 			<contextMenu>
 				<ContextMenu>
 					<items>
-						<MenuItem mnemonicParsing="false"
-							onAction="#gestionStock" text="Gestion du stock" />
+						<MenuItem mnemonicParsing="false" onAction="#gestionStock" text="Gestion du stock" />
 					</items>
 				</ContextMenu>
 			</contextMenu>
 		</TableView>
-		<Button layoutX="41.0" layoutY="463.0" mnemonicParsing="false"
-			onAction="#retour" prefHeight="30.0" prefWidth="106.0"
-			style="-fx-background-color: #ECA61A;" text="Retour" />
-		<Button layoutX="546.0" layoutY="463.0" mnemonicParsing="false"
-			onAction="#quitter" prefHeight="30.0" prefWidth="106.0"
-			style="-fx-background-color: #EC2F1A;" text="Quitter"
-			textFill="#0d0d0d" />
+		<Button layoutX="41.0" layoutY="463.0" mnemonicParsing="false" onAction="#retour" prefHeight="30.0" prefWidth="106.0" style="-fx-background-color: #ECA61A;" text="Retour" />
+		<Button layoutX="546.0" layoutY="463.0" mnemonicParsing="false" onAction="#quitter" prefHeight="30.0" prefWidth="106.0" style="-fx-background-color: #EC2F1A;" text="Quitter" textFill="#0d0d0d" />
+      <Text layoutX="180.0" layoutY="482.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Clique droit sur un médicament pour intéragir avec" wrappingWidth="341.9830722808838" />
 	</children>
 </Pane>

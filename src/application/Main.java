@@ -1,5 +1,8 @@
 package application;
 
+import java.sql.Connection;
+
+import dao.Connexion;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,6 +19,8 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
+	private static Connection con = Connexion.getInstanceDB();
+	
 	/**
 	 * Methode de lancement de l'application
 	 * @param primaryStage : fenetre a afficher
@@ -49,6 +54,21 @@ public class Main extends Application {
 	 */
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	/**
+	 * Methode pour recuperer la connnexion a la base de donnees
+	 * @return la connexion a la BDD
+	 */
+	public static Connection getCon() {
+		try {
+			return con;
+		} catch (Exception e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setContentText("Erreur connexion");
+			error.show();
+		}
+		return null;
 	}
 
 }

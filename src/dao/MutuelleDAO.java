@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +30,6 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "INSERT INTO mutuelle (ID_ADRESSE, NOM_MUTUELLE, "
 					+ "TEL_MUTUELLE, EMAIL_MUTUELLE, "
 					+ "DEPARTEMENT_MUTUELLE, REBOURSEMENT) "
@@ -46,7 +44,7 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -62,7 +60,6 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 		Mutuelle mut = null;
 		AdresseDAO list_adresse = new AdresseDAO();
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "SELECT * FROM mutuelle WHERE ID_MUTUELLE = ? ";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, id);
@@ -73,7 +70,7 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 						rs.getString(5), rs.getString(6), rs.getInt(7));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return mut;
 	}
@@ -88,7 +85,6 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 		AdresseDAO list_adresse = new AdresseDAO();
 		ArrayList<Mutuelle> MutList = new ArrayList<>();
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "SELECT * FROM MUTUELLE";
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -98,7 +94,7 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 						rs.getString(5), rs.getString(6), rs.getInt(7)));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return MutList;
 	}
@@ -113,7 +109,6 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 	public boolean update(Mutuelle mut) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "UPDATE mutuelle " + "SET ID_ADRESSE = ?, "
 					+ "NOM_MUTUELLE = ?, " + "TEL_MUTUELLE ?, "
 					+ "EMAIL_MUTUELLE ?, " + "DEPARTEMENT_MUTUELLE ?, "
@@ -129,7 +124,7 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -144,14 +139,13 @@ public class MutuelleDAO implements DAO<Mutuelle> {
 	public boolean delete(Mutuelle mut) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "DELETE FROM mutuelle " + "WHERE ID_MUTUELLE = ? ";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, mut.getId());
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}

@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +29,6 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 	public boolean create(Specialiste spe) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "INSERT INTO personne (ID_ADRESSE, NOM_PERSONNE, "
 					+ "PRENOM_PERSONNE, TELEPHONE_PERSONNE, "
 					+ "EMAIL_PERSONNE, NOM_SPECIALITE) "
@@ -45,7 +43,7 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -61,7 +59,6 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 		Specialiste spe = null;
 		AdresseDAO list_adresse = new AdresseDAO();
 		try {
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder();
 			sql.append("select ID_PERSONNE, NOM_PERSONNE, PRENOM_PERSONNE, ");
 			sql.append("TELEPHONE_PERSONNE, EMAIL_PERSONNE, ");
@@ -77,7 +74,7 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 						rs.getString(4), rs.getString(5), rs.getString(6));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return spe;
 	}
@@ -93,7 +90,6 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 		ArrayList<Specialiste> speList = new ArrayList<>();
 		AdresseDAO list_adresse = new AdresseDAO();
 		try {
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder();
 			sql.append("select ID_PERSONNE, NOM_PERSONNE, PRENOM_PERSONNE, ");
 			sql.append("TELEPHONE_PERSONNE, EMAIL_PERSONNE, ");
@@ -108,7 +104,7 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 						rs.getString(4), rs.getString(5), rs.getString(6)));
 			}
 		} catch (SQLException | AppException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return speList;
 	}
@@ -123,7 +119,6 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 	public boolean update(Specialiste spe) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "UPDATE personne " + "SET NOM_PERSONNE = ?, "
 					+ "PRENOM_PERSONNE = ?, " + "TELEPHONE_PERSONNE = ?, "
 					+ "EMAIL_PERSONNE = ?, " + "NOM_SPECIALITE = ?, "
@@ -139,7 +134,7 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -154,14 +149,13 @@ public class SpecialisteDAO implements DAO<Specialiste> {
 	public boolean delete(Specialiste spe) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			String sql = "DELETE FROM personne " + "WHERE ID_PERSONNE = ? ";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, spe.getId());
 			stm.executeUpdate();
 			err = false;
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import dao.AchatDAO;
+import dao.Connexion;
 import dao.MedecinDAO;
 import dao.OrdonnanceDAO;
 import exception.DAOException;
@@ -252,7 +253,7 @@ public class ControllerHistorique extends Pane implements Initializable {
 	 * Effet du bouton quitter
 	 */
 	public void quitter() {
-
+		Connexion.closeInstanceDB();
 		Alert quitter = new Alert(AlertType.CONFIRMATION);
 		quitter.setContentText("Voulez-vous quitter?");
 		if (quitter.showAndWait().get() == ButtonType.OK) {

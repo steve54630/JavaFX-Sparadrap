@@ -108,7 +108,6 @@ public class Medicament {
 	 * setter pour le prix avec la reduction d'une mutuelle
 	 * 
 	 * @param mutuelle : mutuelle a prendre en compte pour la reduction
-	 * @throws AppException : refus d'un prix inferieur ou egal a 0
 	 */
 	public void setPrixReduit(Mutuelle mutuelle) {
 		double nouveauPrix = ((100 - mutuelle.getRemboursement())

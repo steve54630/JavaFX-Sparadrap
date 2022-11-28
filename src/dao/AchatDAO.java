@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +30,6 @@ public class AchatDAO implements DAO<Achat> {
 	@Override
 	public boolean create(Achat ach) throws DAOException, SQLException {
 		boolean err = true;
-		Connection con = Connexion.getInstanceDB();
 		try {
 			con.setAutoCommit(false);
 			StringBuilder sql = new StringBuilder();
@@ -54,7 +52,7 @@ public class AchatDAO implements DAO<Achat> {
 			err = false;
 		} catch (SQLException e) {
 			con.rollback();
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}
@@ -71,7 +69,6 @@ public class AchatDAO implements DAO<Achat> {
 		try {
 			ClientDAO clientDAO = new ClientDAO();
 			MedicamentDAO medDao = new MedicamentDAO();
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT ID_ACHAT, ID_CLIENT, ");
 			sql.append("DATE_ACHAT FROM achat ");
@@ -91,10 +88,8 @@ public class AchatDAO implements DAO<Achat> {
 			while (rs.next()) {
 				ach.setMedicaments(medDao.read(rs.getInt(2)), rs.getInt(3));
 			}
-		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
-		} catch (AppException e) {
-			throw new DAOException("Erreur connection base de données");
+		} catch (SQLException | AppException e) {
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return ach;
 	}
@@ -111,7 +106,6 @@ public class AchatDAO implements DAO<Achat> {
 			achList = new ArrayList<>();
 			ClientDAO clientDAO = new ClientDAO();
 			MedicamentDAO medDao = new MedicamentDAO();
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT ID_ACHAT, ID_CLIENT, ");
 			sql.append("DATE_ACHAT FROM achat ");
@@ -133,10 +127,8 @@ public class AchatDAO implements DAO<Achat> {
 								rs.getInt(3));
 				}
 			}
-		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
-		} catch (AppException e) {
-			throw new DAOException("Erreur connection base de données");
+		} catch (SQLException | AppException e) {
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return achList;
 	}
@@ -163,7 +155,6 @@ public class AchatDAO implements DAO<Achat> {
 	public boolean delete(Achat ach) throws DAOException {
 		boolean err = true;
 		try {
-			Connection con = Connexion.getInstanceDB();
 			StringBuilder sql = new StringBuilder();
 			sql.append("DELETE FROM achat ");
 			sql.append("WHERE ID_ACHAT = ? ");
@@ -171,7 +162,7 @@ public class AchatDAO implements DAO<Achat> {
 			stm.setInt(1, ach.getId());
 			stm.executeUpdate();
 		} catch (SQLException e) {
-			throw new DAOException("Erreur connection base de données");
+			throw new DAOException("Erreur connexion base de données");
 		}
 		return err;
 	}

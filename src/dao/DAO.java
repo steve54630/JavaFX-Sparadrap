@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import exception.DAOException;
  * @param <T> objet voulu pour la DAO
  */
 public interface DAO<T> {
+	
+	Connection con = Connexion.getInstanceDB();
 
 	/**
 	 * Methode pour creer un objet dans la base de donnees
