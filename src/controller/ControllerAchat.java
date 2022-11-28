@@ -217,13 +217,7 @@ public class ControllerAchat extends Pane implements Initializable {
 			boxSpecialiste.getItems().add(spe);
 		}
 		for (Medicament medoc : medicTable.getItems()) {
-			try {
-				medoc.setPrixReduit(client.getMutuelle());
-			} catch (AppException e) {
-				Alert error = new Alert(AlertType.ERROR);
-				error.setContentText(e.getMessage());
-				error.show();
-			}
+			medoc.setPrixReduit(client.getMutuelle());
 		}
 		medicTable.refresh();
 	}

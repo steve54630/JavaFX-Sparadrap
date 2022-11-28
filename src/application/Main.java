@@ -23,6 +23,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			//Methode de lancement JavaFX
 			FXMLLoader loader = new FXMLLoader(
 					Main.class.getResource("/view/MainFen.fxml"));
 			Parent root = (Parent) loader.load();

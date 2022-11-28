@@ -143,20 +143,6 @@ public class Achat {
 	}
 
 	/**
-	 * getter pour la liste des medicaments
-	 * 
-	 * @return une {@link String} contenant la liste des medicaments
-	 */
-	private String getListeMedicaments() {
-
-		String temp = "\n";
-		for (Medicament medicament : this.medicaments) {
-			temp = temp + medicament + "\n";
-		}
-		return temp;
-	}
-
-	/**
 	 * Transformer l'objet obtenu en {@link String} lisible par l'utilisateur
 	 */
 	@Override
@@ -165,7 +151,7 @@ public class Achat {
 		return "Acheteur = " + this.acheteur.getNom() + " "
 				+ this.acheteur.getPrenom() + "\n" + "Agé de "
 				+ (today.getYear() - this.acheteur.getDateNaissance().getYear())
-				+ " ans\n" + this.getListeMedicaments() + "\nDate = "
+				+ " ans\n" + "\nDate = "
 				+ this.dateToString() + "\nPrix total = " + this.getPrixTotal()
 				+ " €";
 	}

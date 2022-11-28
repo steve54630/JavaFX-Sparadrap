@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
-import exception.AppException;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -107,13 +106,7 @@ public class ControllerAfficherAchat extends Pane implements Initializable {
 			// recuperation du prix reduit
 			prix.setCellValueFactory(new PropertyValueFactory<>("prixReduit"));
 			for (Medicament medicament : achat.getMedicaments()) {
-				try {
-					medicament.setPrixReduit(achat.getAcheteur().getMutuelle());
-				} catch (AppException e) {
-					Alert error = new Alert(AlertType.ERROR);
-					error.setContentText(e.getMessage());
-					error.show();
-				}
+				medicament.setPrixReduit(achat.getAcheteur().getMutuelle());
 				// ajout des médicaments à la table
 				medicTable.getItems().add(medicament);
 			}

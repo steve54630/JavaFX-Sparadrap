@@ -1,6 +1,7 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
@@ -68,7 +69,6 @@ class MedicamentTest {
 
 	@Test
 	void testSetPrix() {
-
 		int[] test = { -1, 0 };
 		for (int prix : test) {
 			try {
@@ -79,6 +79,33 @@ class MedicamentTest {
 						.contains("Erreur médicament : prix négatif ou null"));
 			}
 		}
+	}
+	
+	@Test
+	void testSetQuantite() {
+		int[] test = { -1, 0 };
+		for (int quantite : test) {
+			try {
+				medicament = new Medicament(0, "Amoxilline", "Antibiotique",
+						12, 60, "1953-05-02");
+				medicament.setQuantite(quantite);
+			} catch (AppException e) {
+				assert (e.getMessage()
+						.contains("Erreur médicament : quantité négative"));
+			}
+		}
+	}
+	
+	@Test
+	void testSetQuantite_stock_impossible() {
+			try {
+				medicament = new Medicament(0, "Amoxilline", "Antibiotique",
+						12, 60, "1953-05-02");
+				medicament.setQuantite(61);
+				fail("test échoué");
+			} catch (AppException e) {
+				assert (e.getMessage()
+						.contains("Erreur médicament : stock indisponible"));}
 	}
 
 	@Test
@@ -94,28 +121,30 @@ class MedicamentTest {
 
 	@Test
 	void testMedicament() {
-		
+
 		Mutuelle mutuelle;
 		Adresse adresse;
 		try {
-			medicament = new Medicament(0, "Amoxicilline",
-					"Antibiotique", 1, 5, "1953-05-02");
-			adresse = new Adresse(0, "9", "Rue Maurice Barres", "54000", "Nancy");
-			mutuelle = new Mutuelle(0, "MGEN", adresse, "3976", "acceuil@mgen.fr",
-					"Meurthe-et-Moselle", 80);
+			medicament = new Medicament(0, "Amoxicilline", "Antibiotique", 1, 5,
+					"1953-05-02");
+			adresse = new Adresse(0, "9", "Rue Maurice Barres", "54000",
+					"Nancy");
+			mutuelle = new Mutuelle(0, "MGEN", adresse, "3976",
+					"acceuil@mgen.fr", "Meurthe-et-Moselle", 80);
 			medicament.setPrixReduit(mutuelle);
+			medicament.setQuantite(5);
 		} catch (AppException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertEquals(0, medicament.getId());
 		assertEquals("Amoxicilline", medicament.getNom());
 		assertEquals("Antibiotique", medicament.getCategorie());
 		assertEquals(1, medicament.getPrix());
+		assertEquals(5, medicament.getStock());
 		assertEquals(5, medicament.getQuantite());
 		assertEquals("1953-05-02", medicament.dateToString());
-		assertEquals(0.2,medicament.getPrixReduit());
+		assertEquals(0.2, medicament.getPrixReduit());
 	}
 
 }

@@ -23,6 +23,7 @@ public class Medicament {
 	private LocalDate dateCirculation;
 	private int quantite;
 	private int stock;
+
 	/**
 	 * setter pour le nom du medicament
 	 * 
@@ -103,23 +104,22 @@ public class Medicament {
 		return prixReduit;
 	}
 
-	/** setter pour le prix avec la reduction d'une mutuelle
+	/**
+	 * setter pour le prix avec la reduction d'une mutuelle
 	 * 
-	 * @param mutuelle : mutuelle a prendre en compte pour la reduction 
+	 * @param mutuelle : mutuelle a prendre en compte pour la reduction
 	 * @throws AppException : refus d'un prix inferieur ou egal a 0
 	 */
-	public void setPrixReduit(Mutuelle mutuelle) throws AppException {
+	public void setPrixReduit(Mutuelle mutuelle) {
 		double nouveauPrix = ((100 - mutuelle.getRemboursement())
 				* this.getPrix()) / 100;
-		if (nouveauPrix <= 0)
-			throw new AppException("Erreur médicament : prix négatif ou null");
 		this.prixReduit = nouveauPrix;
 	}
 
 	/**
 	 * setter pour la date de mise en circulation
 	 * 
-	 * @param date  : date de mise en circulation
+	 * @param date : date de mise en circulation
 	 * @throws AppException : erreur dans la saisi de la date
 	 */
 	public void setDateCirculation(String date)
@@ -162,8 +162,11 @@ public class Medicament {
 	 * @throws AppException : un stock ne peut pas etre negatif
 	 */
 	public void setQuantite(int quantite) throws AppException {
-		if (quantite < 0)
-			throw new AppException("Erreur médicament : quantité négative");
+		if (quantite <= 0)
+			throw new AppException(
+					"Erreur médicament : quantité négative ou nulle");
+		if (quantite > this.stock)
+			throw new AppException("Erreur médicament : stock indisponible");
 		this.quantite = quantite;
 	}
 
@@ -203,7 +206,7 @@ public class Medicament {
 	 * @param categorie : categorie du medicament
 	 * @param prix      : prix du medicament
 	 * @param stock     : stock du medicament
-	 * @param date      :  date de mise en circulation
+	 * @param date      : date de mise en circulation
 	 * @throws AppException : erreurs de l'utilisateur
 	 */
 	public Medicament(Integer id, String nom, String categorie, double prix,
@@ -222,7 +225,7 @@ public class Medicament {
 	@Override
 	public String toString() {
 		return this.getNom() + ", " + this.getCategorie() + ", Prix= "
-				+ this.getPrix() + "€";
+				+ this.getPrix() + "€, Stock= "+this.getStock();
 	}
 
 }

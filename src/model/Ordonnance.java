@@ -94,12 +94,7 @@ public class Ordonnance extends Achat {
 	public double getPrixTotal() {
 		double prixTotal = 0;
 		for (Medicament medicament : this.getMedicaments()) {
-			try {
 				medicament.setPrixReduit(this.getAcheteur().getMutuelle());
-			} catch (AppException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			prixTotal = prixTotal
 					+ (medicament.getQuantite() * medicament.getPrixReduit());
 		}
