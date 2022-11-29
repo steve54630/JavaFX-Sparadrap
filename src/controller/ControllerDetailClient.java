@@ -221,29 +221,41 @@ public class ControllerDetailClient extends Pane implements Initializable {
 	}
 
 	/**
+	 * Ouverture du menu du client
+	 * 
+	 * @param choix : mode modification ou non
+	 * @throws IOException
+	 */
+	public void menuClient(boolean choix, Client client) throws IOException {
+		FXMLLoader fen = new FXMLLoader(
+				getClass().getResource("/view/EditClient.fxml"));
+		ControllerEdition controller = new ControllerEdition();
+		/*
+		 * passage des paramétres au contrôleur pour une fenêtre
+		 * "modifier un client"
+		 */
+		controller.setEditer(choix);
+		controller.setChoixCli(client);
+		fen.setController(controller);
+		Stage stage = (Stage) cliTable.getScene().getWindow();
+		stage.setScene(new Scene(fen.load()));
+		stage.setTitle("Afficher client");
+		stage.show();
+	}
+
+	/**
 	 * Effet du bouton "ajouter un client"
 	 * 
 	 * @param event : clic sur le bouton ajouter un client
 	 */
 	public void ajoutClient(ActionEvent event) {
 		try {
-			FXMLLoader fen = new FXMLLoader(
-					getClass().getResource("/view/EditClient.fxml"));
-			ControllerEdition controller = new ControllerEdition();
-			fen.setController(controller);
-			Parent root = fen.load();
-			Stage stage = (Stage) ((Node) event.getSource()).getScene()
-					.getWindow();
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.setTitle("Création client");
-			stage.show();
+			menuClient(true, null);
 		} catch (IOException e) {
 			Alert error = new Alert(AlertType.ERROR);
 			error.setContentText("Erreur affichage");
 			error.show();
 		}
-
 	}
 
 	/**
@@ -254,23 +266,9 @@ public class ControllerDetailClient extends Pane implements Initializable {
 	public void afficherClient(ActionEvent event) {
 		if (cliTable.getSelectionModel().getSelectedItem() != null) {
 			try {
-				FXMLLoader fen = new FXMLLoader(
-						getClass().getResource("/view/EditClient.fxml"));
-				ControllerEdition controller = new ControllerEdition();
-				/*
-				 * passage des paramétres au contrôleur pour une fenêtre
-				 * "afficher un client"
-				 */
-				controller.setEditer(false);
-				controller.setChoixCli(
+				menuClient(false,
 						cliTable.getSelectionModel().getSelectedItem());
-				fen.setController(controller);
-				Stage stage = (Stage) cliTable.getScene().getWindow();
-				stage.setScene(new Scene(fen.load()));
-				stage.setTitle("Afficher client");
-				stage.show();
 			} catch (IOException e) {
-				e.printStackTrace();
 				Alert error = new Alert(AlertType.ERROR);
 				error.setContentText("Erreur affichage");
 				error.show();
@@ -286,21 +284,8 @@ public class ControllerDetailClient extends Pane implements Initializable {
 	public void modifierClient(ActionEvent event) {
 		if (cliTable.getSelectionModel().getSelectedItem() != null) {
 			try {
-				FXMLLoader fen = new FXMLLoader(
-						getClass().getResource("/view/EditClient.fxml"));
-				ControllerEdition controller = new ControllerEdition();
-				/*
-				 * passage des paramétres au contrôleur pour une fenêtre
-				 * "modifier un client"
-				 */
-				controller.setEditer(true);
-				controller.setChoixCli(
+				menuClient(true,
 						cliTable.getSelectionModel().getSelectedItem());
-				fen.setController(controller);
-				Stage stage = (Stage) cliTable.getScene().getWindow();
-				stage.setScene(new Scene(fen.load()));
-				stage.setTitle("Afficher client");
-				stage.show();
 			} catch (IOException e) {
 				Alert error = new Alert(AlertType.ERROR);
 				error.setContentText("Erreur affichage");
