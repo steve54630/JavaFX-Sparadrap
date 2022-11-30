@@ -19,10 +19,6 @@ public class Achat {
 	private String type = getClass().getName().replaceAll("model.", "");
 	private ArrayList<Medicament> medicaments = new ArrayList<>();
 
-	public String getType() {
-		return type;
-	}
-
 	/**
 	 * setter pour celui qui realise l'achat
 	 * 
@@ -126,6 +122,10 @@ public class Achat {
 	public String dateToString() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return this.getDate().format(formatter);
+	}
+
+	public String getType() {
+		return type;
 	}
 
 	/**

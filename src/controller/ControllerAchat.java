@@ -2,13 +2,13 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import application.Main;
 import dao.AchatDAO;
 import dao.ClientDAO;
 import dao.Connexion;
@@ -89,6 +89,7 @@ public class ControllerAchat extends Pane implements Initializable {
 	private MedicamentDAO medDao = new MedicamentDAO();
 	private AchatDAO achDAO = new AchatDAO();
 	private OrdonnanceDAO ordDao = new OrdonnanceDAO();
+	private Connection con = Connexion.getInstanceDB();
 
 	/**
 	 * Initialisation de la fenetre
@@ -150,7 +151,7 @@ public class ControllerAchat extends Pane implements Initializable {
 			object.setVisible(false);
 		}
 		try {
-			Main.getCon().setAutoCommit(false);
+			con.setAutoCommit(false);
 		} catch (SQLException e) {
 			Alert error = new Alert(AlertType.ERROR);
 			error.setContentText(
@@ -320,74 +321,82 @@ public class ControllerAchat extends Pane implements Initializable {
 	 */
 	public void validerAchat(ActionEvent event) {
 		Alert valider = new Alert(AlertType.CONFIRMATION);
-		valider.setContentText("Voulez-vous valider l'achat?");
-		if (valider.showAndWait().get() == ButtonType.OK) {
-			DateTimeFormatter formatter = DateTimeFormatter
-					.ofPattern("yyyy-MM-dd");
-			LocalDate achatDate = LocalDate.now();
-			String date = achatDate.format(formatter);
-			// Effet du bouton si "Achat sans ordonnance" est sélectionné
-			if (boxAchat.getValue().equals("Achat sans ordonnance")) {
-				try {
-					// création d'un achat avec les paramètres voulus
-					Achat achat = new Achat(null, boxClient.getValue(), date);
-					// ajout des médicaments à cet achat
-					for (Medicament medicament : medicTable.getItems()) {
-						achat.setMedicaments(medicament,
-								medicament.getQuantite());
-						medDao.updateStock(medicament);
+		if (medicTable.getItems().isEmpty()) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setContentText("Erreur achat : liste de médicaments vide");
+			error.show();
+		} else {
+			valider.setContentText("Voulez-vous valider l'achat?");
+			if (valider.showAndWait().get() == ButtonType.OK) {
+				DateTimeFormatter formatter = DateTimeFormatter
+						.ofPattern("yyyy-MM-dd");
+				LocalDate achatDate = LocalDate.now();
+				String date = achatDate.format(formatter);
+				// Effet du bouton si "Achat sans ordonnance" est sélectionné
+				if (boxAchat.getValue().equals("Achat sans ordonnance")) {
+					try {
+						// création d'un achat avec les paramètres voulus
+						Achat achat = new Achat(null, boxClient.getValue(),
+								date);
+						// ajout des médicaments à cet achat
+						for (Medicament medicament : medicTable.getItems()) {
+							achat.setMedicaments(medicament,
+									medicament.getQuantite());
+							medDao.updateStock(medicament);
+						}
+						// ajout de l'achat à la base de données
+						achDAO.create(achat);
+						// retour au menu principal
+						menuPrincipal();
+					} catch (AppException e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setContentText(e.getMessage());
+						error.show();
+					} catch (NullPointerException e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setContentText("Aucune date saisie");
+						error.show();
+					} catch (DAOException | SQLException e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setContentText(e.getMessage());
+						error.show();
 					}
-					// ajout de l'achat à la base de données
-					achDAO.create(achat);
-					// retour au menu principal
-					menuPrincipal();
-				} catch (AppException e) {
-					Alert error = new Alert(AlertType.ERROR);
-					error.setContentText(e.getMessage());
-					error.show();
-				} catch (NullPointerException e) {
-					Alert error = new Alert(AlertType.ERROR);
-					error.setContentText("Aucune date saisie");
-					error.show();
-				} catch (DAOException | SQLException e) {
-					Alert error = new Alert(AlertType.ERROR);
-					error.setContentText(e.getMessage());
-					error.show();
-				}
-			} else {
-				try {
-					// création d'une ordonnance avec les paramétres
-					// sélectionnés
-					Ordonnance ordonnance = new Ordonnance(null,
-							boxClient.getValue(),
-							boxClient.getValue().getMedecin(), date);
-					// ajout des médicaments à cet ordonnance
-					for (Medicament medicament : medicTable.getItems()) {
-						ordonnance.setMedicaments(medicament,
-								medicament.getQuantite());
-						medDao.updateStock(medicament);
+				} else {
+					try {
+						// création d'une ordonnance avec les paramétres
+						// sélectionnés
+						Ordonnance ordonnance = new Ordonnance(null,
+								boxClient.getValue(),
+								boxClient.getValue().getMedecin(), date);
+						// ajout des médicaments à cet ordonnance
+						for (Medicament medicament : medicTable.getItems()) {
+							ordonnance.setMedicaments(medicament,
+									medicament.getQuantite());
+							medDao.updateStock(medicament);
+						}
+						// ajout du spécialiste si choisi à cette ordonnance
+						if (boxSpecialiste.getValue() != null) {
+							ordonnance
+									.setSpecialiste(boxSpecialiste.getValue());
+						}
+						// ajout de l'ordonnance à la base de données
+						ordDao.create(ordonnance);
+						// retour au menu principal
+						menuPrincipal();
+					} catch (AppException e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setContentText(e.getMessage());
+						error.show();
+					} catch (DAOException e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setContentText(e.getMessage());
+						error.show();
+					} catch (SQLException e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setContentText(
+								"Erreur connexion BDD : veuillez contacter le SAV");
+						error.show();
 					}
-					// ajout du spécialiste si choisi à cette ordonnance
-					if (boxSpecialiste.getValue() != null) {
-						ordonnance.setSpecialiste(boxSpecialiste.getValue());
-					}
-					// ajout de l'ordonnance à la base de données
-					ordDao.create(ordonnance);
-					// retour au menu principal
-					menuPrincipal();
-				} catch (AppException e) {
-					Alert error = new Alert(AlertType.ERROR);
-					error.setContentText(e.getMessage());
-					error.show();
-				} catch (DAOException e) {
-					Alert error = new Alert(AlertType.ERROR);
-					error.setContentText(e.getMessage());
-					error.show();
-				} catch (SQLException e) {
-					Alert error = new Alert(AlertType.ERROR);
-					error.setContentText(
-							"Erreur connexion BDD : veuillez contacter le SAV");
-					error.show();
 				}
 			}
 		}
@@ -419,7 +428,7 @@ public class ControllerAchat extends Pane implements Initializable {
 	 */
 	public void retour(ActionEvent event) {
 		try {
-			Main.getCon().rollback();
+			con.rollback();
 			menuPrincipal();
 		} catch (SQLException e) {
 			Alert error = new Alert(AlertType.ERROR);
@@ -433,7 +442,6 @@ public class ControllerAchat extends Pane implements Initializable {
 	 * Effet du bouton quitter
 	 */
 	public void quitter() {
-
 		Connexion.closeInstanceDB();
 		Alert quitter = new Alert(AlertType.CONFIRMATION);
 		quitter.setContentText("Voulez-vous quitter?");

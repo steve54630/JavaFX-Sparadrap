@@ -1,0 +1,40 @@
+
+
+Version:	3.50
+CmdLine:	C:\Users\User-09\Documents\JavaFx app\App à test\app.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\User-09\Documents\JavaFx app\App à test\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+Substitute:	JAVA_HOME = C:\App\Java\
+Substitute:	PATH = C:\App\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\User-09\AppData\Local\Microsoft\WindowsApps;;C:\Users\User-09\AppData\Local\Programs\Microsoft VS Code\bin;C:\App\Java\\bin
+JRE paths:	C:\App\Java\;C:\App\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\User-09\AppData\Local\Microsoft\WindowsApps;;C:\Users\User-09\AppData\Local\Programs\Microsoft VS Code\bin;C:\App\Java\\bin
+Check launcher:	C:\App\Java\bin\javaw.exe (OK)
+Version string: 1.011.000_015 / 64-Bit (OK)
+Launcher:	C:\App\Java\bin\javaw.exe
+Launcher args:	--module-path ".\javafx\lib" --add-modules javafx.controls,javafx.fxml -jar "C:\Users\User-09\Documents\JavaFx app\App à test\app.exe"
+Args length:	134/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\User-09\Documents\JavaFx app\App à test\app.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\User-09\Documents\JavaFx app\App à test\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+Substitute:	JAVA_HOME = C:\App\Java\
+Substitute:	PATH = C:\App\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\User-09\AppData\Local\Microsoft\WindowsApps;;C:\Users\User-09\AppData\Local\Programs\Microsoft VS Code\bin;C:\App\Java\\bin
+JRE paths:	C:\App\Java\;C:\App\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\User-09\AppData\Local\Microsoft\WindowsApps;;C:\Users\User-09\AppData\Local\Programs\Microsoft VS Code\bin;C:\App\Java\\bin
+Check launcher:	C:\App\Java\bin\javaw.exe (OK)
+Version string: 1.011.000_015 / 64-Bit (OK)
+Launcher:	C:\App\Java\bin\javaw.exe
+Launcher args:	--module-path ".\javafx\lib" --add-modules javafx.controls,javafx.fxml -jar "C:\Users\User-09\Documents\JavaFx app\App à test\app.exe"
+Args length:	134/32768 chars
+Exit code:	0

@@ -224,7 +224,8 @@ public class ControllerDetailClient extends Pane implements Initializable {
 	 * Ouverture du menu du client
 	 * 
 	 * @param choix : mode modification ou non
-	 * @throws IOException
+	 * @param client : client de la fenetre
+	 * @throws IOException : erreur affichage
 	 */
 	public void menuClient(boolean choix, Client client) throws IOException {
 		FXMLLoader fen = new FXMLLoader(
@@ -345,7 +346,6 @@ public class ControllerDetailClient extends Pane implements Initializable {
 	 * Effet du bouton "quitter"
 	 */
 	public void quitter() {
-
 		Connexion.closeInstanceDB();
 		Alert quitter = new Alert(AlertType.CONFIRMATION);
 		quitter.setContentText("Voulez-vous quitter?");

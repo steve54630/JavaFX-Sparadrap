@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import exception.DAOException;
+
 /**
  * Singleton pour se connecter a mySQL
  * 
@@ -19,7 +21,7 @@ public class Connexion {
 	private static final Properties props = new Properties();
 	private static Connection connection;
 
-	private Connexion() {
+	private Connexion() throws DAOException {
 		try {
 			FileInputStream file = new FileInputStream(PATHCONF);
 
@@ -30,7 +32,7 @@ public class Connexion {
 			connection = DriverManager.getConnection(props.getProperty("url"),
 					props);
 		} catch (IOException | SQLException e) {
-			System.out.println("infos : " + e.getMessage());
+			throw new DAOException("infos : " + e.getMessage());
 		}
 	}
 
@@ -41,7 +43,11 @@ public class Connexion {
 	 */
 	public static Connection getInstanceDB() {
 		if (connection == null) {
-			new Connexion();
+			try {
+				new Connexion();
+			} catch (DAOException e) {
+				e.printStackTrace();
+			}
 		}
 		return connection;
 	}

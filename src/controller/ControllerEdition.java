@@ -2,13 +2,13 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import application.Main;
 import dao.AdresseDAO;
 import dao.ClientDAO;
 import dao.Connexion;
@@ -107,6 +107,7 @@ public class ControllerEdition extends Pane implements Initializable {
 	private MedecinDAO medDao = new MedecinDAO();
 	private MutuelleDAO mutDao = new MutuelleDAO();
 	private AdresseDAO adresseDAO = new AdresseDAO();
+	private Connection con = Connexion.getInstanceDB();
 
 	/**
 	 * Setter pour recuperer le client a afficher
@@ -241,7 +242,7 @@ public class ControllerEdition extends Pane implements Initializable {
 
 		boxSpecialiste.getSelectionModel().selectFirst();
 		try {
-			Main.getCon().setAutoCommit(false);
+			con.setAutoCommit(false);
 		} catch (SQLException e) {
 			Alert erreur = new Alert(AlertType.ERROR);
 			erreur.setHeaderText("Erreur serveur");
@@ -294,7 +295,7 @@ public class ControllerEdition extends Pane implements Initializable {
 				cli.setId(choixCli.getId());
 				clientDAO.update(cli);
 			}
-			Main.getCon().commit();
+			con.commit();
 			Parent root = FXMLLoader
 					.load(getClass().getResource("/view/Details.fxml"));
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()
@@ -388,7 +389,7 @@ public class ControllerEdition extends Pane implements Initializable {
 	 */
 	public void retour(ActionEvent event) {
 		try {
-			Main.getCon().rollback();
+			con.rollback();
 			Parent root = FXMLLoader
 					.load(getClass().getResource("/view/Details.fxml"));
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()

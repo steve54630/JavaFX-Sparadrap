@@ -202,7 +202,6 @@ public class ControllerAfficherAchat extends Pane implements Initializable {
 	 * Effet du bouton quitter
 	 */
 	public void quitter() {
-	
 		Connexion.closeInstanceDB();
 		Alert quitter = new Alert(AlertType.CONFIRMATION);
 		quitter.setContentText("Voulez-vous quitter?");
