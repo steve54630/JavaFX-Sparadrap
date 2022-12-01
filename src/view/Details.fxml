@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity"
+<Pane id="Fenetre" maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="614.0"
-	prefWidth="864.0" style="-fx-background-color: #1DB0EF;"
-	xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+	prefWidth="864.0" xmlns="http://javafx.com/javafx/18"
+	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="controller.ControllerDetailClient">
 	<children>
 		<TableView fx:id="cliTable" layoutX="31.0" layoutY="14.0"
@@ -46,13 +46,12 @@
 				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 			</columnResizePolicy>
 		</TableView>
-		<Button layoutX="539.0" layoutY="568.0" mnemonicParsing="false"
-			onAction="#retour" prefHeight="30.0" prefWidth="106.0"
-			style="-fx-background-color: #ECA61A;" text="Retour" />
-		<Button layoutX="697.0" layoutY="568.0" mnemonicParsing="false"
-			onAction="#quitter" prefHeight="30.0" prefWidth="106.0"
-			style="-fx-background-color: #EC2F1A;" text="Quitter"
-			textFill="#0d0d0d" />
+		<Button id="retour" layoutX="539.0" layoutY="568.0"
+			mnemonicParsing="false" onAction="#retour" prefHeight="30.0"
+			prefWidth="106.0" text="Retour" />
+		<Button id="quitter" layoutX="697.0" layoutY="568.0"
+			mnemonicParsing="false" onAction="#quitter" prefHeight="30.0"
+			prefWidth="106.0" text="Quitter" textFill="#0d0d0d" />
 		<Button layoutX="539.0" layoutY="515.0" mnemonicParsing="false"
 			onAction="#ajoutClient" prefHeight="30.0" prefWidth="264.0"
 			text="Ajouter un client" />

@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -89,7 +88,6 @@ public class ControllerAchat extends Pane implements Initializable {
 	private MedicamentDAO medDao = new MedicamentDAO();
 	private AchatDAO achDAO = new AchatDAO();
 	private OrdonnanceDAO ordDao = new OrdonnanceDAO();
-	private Connection con = Connexion.getInstanceDB();
 
 	/**
 	 * Initialisation de la fenetre
@@ -149,14 +147,6 @@ public class ControllerAchat extends Pane implements Initializable {
 		boxMedicament.getSelectionModel().selectFirst();
 		for (MenuItem object : menu.getItems()) {
 			object.setVisible(false);
-		}
-		try {
-			con.setAutoCommit(false);
-		} catch (SQLException e) {
-			Alert error = new Alert(AlertType.ERROR);
-			error.setContentText(
-					"Erreur connexion BDD : veuillez contacter le SAV");
-			error.show();
 		}
 	}
 
@@ -360,6 +350,10 @@ public class ControllerAchat extends Pane implements Initializable {
 						Alert error = new Alert(AlertType.ERROR);
 						error.setContentText(e.getMessage());
 						error.show();
+					} catch (IOException e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setContentText("Erreur affichage");
+						error.show();
 					}
 				} else {
 					try {
@@ -396,6 +390,10 @@ public class ControllerAchat extends Pane implements Initializable {
 						error.setContentText(
 								"Erreur connexion BDD : veuillez contacter le SAV");
 						error.show();
+					} catch (IOException e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setContentText("Erreur affichage");
+						error.show();
 					}
 				}
 			}
@@ -405,20 +403,16 @@ public class ControllerAchat extends Pane implements Initializable {
 	/**
 	 * Fonction pour retourner au menu principal
 	 */
-	public void menuPrincipal() {
-		try {
+	public void menuPrincipal() throws IOException {
 			root = FXMLLoader
 					.load(getClass().getResource("/view/MainFen.fxml"));
 			stage = (Stage) retour.getScene().getWindow();
 			scene = new Scene((Parent) root);
+			scene.getStylesheets().add(getClass()
+					.getResource("/application/application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.setTitle("Menu principal");
 			stage.show();
-		} catch (IOException e) {
-			Alert error = new Alert(AlertType.ERROR);
-			error.setContentText("Erreur affichage");
-			error.show();
-		}
 	}
 
 	/**
@@ -428,12 +422,11 @@ public class ControllerAchat extends Pane implements Initializable {
 	 */
 	public void retour(ActionEvent event) {
 		try {
-			con.rollback();
 			menuPrincipal();
-		} catch (SQLException e) {
+		} catch (IOException e) {
+			e.printStackTrace();
 			Alert error = new Alert(AlertType.ERROR);
-			error.setContentText(
-					"Erreur connexion BDD : veuillez contacter le SAV");
+			error.setContentText("Erreur affichage");
 			error.show();
 		}
 	}

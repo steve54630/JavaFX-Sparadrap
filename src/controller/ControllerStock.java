@@ -115,6 +115,8 @@ public class ControllerStock extends Pane implements Initializable {
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()
 					.getWindow();
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass()
+					.getResource("/application/application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.setTitle("Menu principal");
 			stage.show();

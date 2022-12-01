@@ -187,7 +187,10 @@ public class ControllerHistorique extends Pane implements Initializable {
 						achTable.getSelectionModel().getSelectedItem());
 				fen.setController(controller);
 				Stage stage = (Stage) achTable.getScene().getWindow();
-				stage.setScene(new Scene(fen.load()));
+				Scene scene = new Scene(fen.load());
+				scene.getStylesheets().add(getClass()
+						.getResource("/application/application.css").toExternalForm());
+				stage.setScene(scene);
 				stage.setTitle("Afficher client");
 				stage.show();
 			} catch (IOException e) {
@@ -198,34 +201,34 @@ public class ControllerHistorique extends Pane implements Initializable {
 		}
 	}
 
-	/** Effet du menu contextuel "supprimer achat"
+	/**
+	 * Effet du menu contextuel "supprimer achat"
 	 * 
 	 * @param event : clic sur le menu contextuel "supprimer achat"
 	 */
 	public void supprimerAchat(ActionEvent event) {
 		if (achTable.getSelectionModel().getSelectedItem() != null) {
-				Alert supprimer = new Alert(AlertType.CONFIRMATION);
-				supprimer.setContentText(
-						"Voulez-vous supprimer la ligne sélectionné?");
-				if (supprimer.showAndWait().get() == ButtonType.OK) {
-					/*
-					 * suppression de l'objet de la base de données, puis du
-					 * tableau
-					 */
-					try {
-						achatDao.delete(
-								achTable.getSelectionModel().getSelectedItem());
-						achTable.getItems().remove(
-								achTable.getSelectionModel().getSelectedItem());
-						achTable.refresh();
-					} catch (DAOException e) {
-						Alert error = new Alert(AlertType.ERROR);
-						error.setContentText(e.getMessage());
-						error.show();
-					}
+			Alert supprimer = new Alert(AlertType.CONFIRMATION);
+			supprimer.setContentText(
+					"Voulez-vous supprimer la ligne sélectionné?");
+			if (supprimer.showAndWait().get() == ButtonType.OK) {
+				/*
+				 * suppression de l'objet de la base de données, puis du tableau
+				 */
+				try {
+					achatDao.delete(
+							achTable.getSelectionModel().getSelectedItem());
+					achTable.getItems().remove(
+							achTable.getSelectionModel().getSelectedItem());
+					achTable.refresh();
+				} catch (DAOException e) {
+					Alert error = new Alert(AlertType.ERROR);
+					error.setContentText(e.getMessage());
+					error.show();
 				}
 			}
 		}
+	}
 
 	/**
 	 * Effet du bouton retour
@@ -239,6 +242,8 @@ public class ControllerHistorique extends Pane implements Initializable {
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()
 					.getWindow();
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass()
+					.getResource("/application/application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.setTitle("Menu principal");
 			stage.show();

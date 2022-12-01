@@ -12,10 +12,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity"
+<Pane id="Fenetre" maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0"
-	prefWidth="816.0" style="-fx-background-color: #1DB0EF;"
-	xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+	prefWidth="816.0" xmlns="http://javafx.com/javafx/18"
+	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="controller.ControllerAchat">
 	<children>
 		<Text layoutX="397.0" layoutY="34.0" strokeType="OUTSIDE"
@@ -24,14 +24,12 @@
 				<Font size="18.0" />
 			</font>
 		</Text>
-		<Button fx:id="retour" layoutX="49.0" layoutY="534.0"
-			mnemonicParsing="false" onAction="#retour" prefHeight="30.0"
-			prefWidth="106.0" style="-fx-background-color: #ECA61A;"
-			text="Retour" />
-		<Button layoutX="669.0" layoutY="534.0" mnemonicParsing="false"
-			onAction="#quitter" prefHeight="30.0" prefWidth="106.0"
-			style="-fx-background-color: #EC2F1A;" text="Quitter"
-			textFill="#0d0d0d" />
+		<Button id="retour" fx:id="retour" layoutX="49.0"
+			layoutY="534.0" mnemonicParsing="false" onAction="#retour"
+			prefHeight="30.0" prefWidth="106.0" text="Retour" />
+		<Button id="quitter" layoutX="669.0" layoutY="534.0"
+			mnemonicParsing="false" onAction="#quitter" prefHeight="30.0"
+			prefWidth="106.0" text="Quitter" textFill="#0d0d0d" />
 		<TableView fx:id="medicTable" cache="true"
 			cacheHint="QUALITY" layoutX="49.0" layoutY="229.0" prefHeight="297.0"
 			prefWidth="736.0">
@@ -65,7 +63,6 @@
 			onAction="#choixClient" prefHeight="26.0" prefWidth="289.0" />
 		<Button layoutX="293.0" layoutY="534.0" mnemonicParsing="false"
 			onAction="#validerAchat" prefHeight="30.0" prefWidth="248.0"
-			style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #16D42F;"
 			text="Valider l'achat" />
 		<Button layoutX="438.0" layoutY="183.0" mnemonicParsing="false"
 			onAction="#ajouterMedicament" prefHeight="30.0" prefWidth="240.0"

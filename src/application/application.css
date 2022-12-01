@@ -1,1 +1,33 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.button {
+	-fx-color: #383838;
+	-fx-border-radius: 20.0;
+	-fx-background-radius: 20.0;
+}
+
+.button:hover{
+	-fx-color: #2F4F4F;
+}
+
+#quitter {
+	-fx-color : #EC2F1A;
+}
+
+#quitter:hover {
+	-fx-background-color: #D47580;
+}
+
+#retour {
+	-fx-color: #ECA61A;
+}
+
+#retour:hover {
+	-fx-color: #DC9404
+}
+
+.text-field {
+	-fx-background-color: #a9a9a9;
+}
+
+#Fenetre {
+	-fx-background-color: #17709C;
+}

@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity"
+<Pane id="Fenetre" maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0"
-	prefWidth="787.0" style="-fx-background-color: #1DB0EF;"
-	xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+	prefWidth="787.0" xmlns="http://javafx.com/javafx/18"
+	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="controller.ControllerHistorique">
 	<children>
 		<TableView fx:id="achTable" layoutX="53.0" layoutY="70.0"

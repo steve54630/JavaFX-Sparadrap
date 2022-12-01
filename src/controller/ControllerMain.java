@@ -60,9 +60,12 @@ public class ControllerMain extends Pane implements Initializable {
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setTitle("Menu Achat");
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass()
+					.getResource("/application/application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 		} catch (Exception e) {
+			e.printStackTrace();
 			Alert error = new Alert(AlertType.ERROR);
 			error.setContentText("Erreur affichage");
 			error.show();
@@ -80,6 +83,8 @@ public class ControllerMain extends Pane implements Initializable {
 					.load(getClass().getResource("/view/Historique.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass()
+					.getResource("/application/application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.setTitle("Historique");
 			stage.show();
@@ -100,6 +105,8 @@ public class ControllerMain extends Pane implements Initializable {
 			root = FXMLLoader.load(getClass().getResource("/view/Stock.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass()
+					.getResource("/application/application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.setTitle("Stock");
 			stage.show();
@@ -121,6 +128,8 @@ public class ControllerMain extends Pane implements Initializable {
 					.load(getClass().getResource("/view/Details.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass()
+					.getResource("/application/application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.setTitle("Détails");
 			stage.show();

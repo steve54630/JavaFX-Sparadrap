@@ -239,7 +239,10 @@ public class ControllerDetailClient extends Pane implements Initializable {
 		controller.setChoixCli(client);
 		fen.setController(controller);
 		Stage stage = (Stage) cliTable.getScene().getWindow();
-		stage.setScene(new Scene(fen.load()));
+		Scene scene = new Scene(fen.load());
+		scene.getStylesheets().add(getClass()
+				.getResource("/application/application.css").toExternalForm());
+		stage.setScene(scene);
 		stage.setTitle("Afficher client");
 		stage.show();
 	}
@@ -333,6 +336,8 @@ public class ControllerDetailClient extends Pane implements Initializable {
 			Stage stage = (Stage) ((Node) event.getSource()).getScene()
 					.getWindow();
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass()
+					.getResource("/application/application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 		} catch (Exception e) {
